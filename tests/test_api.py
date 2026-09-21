@@ -59,3 +59,22 @@ def test_api_lists_and_runs_calculation(monkeypatch) -> None:
     assert versioned_response.json()["value"] == 8
     assert response.json()["_provenance"]["runtime"]["revision"] == "runtime-test-revision"
     assert response.json()["_provenance"]["engine"]["id"] == "test.plugin"
+
+
+def test_about_exposes_source_and_licence_metadata(monkeypatch) -> None:
+    monkeypatch.setenv("OPENCALCS_SOURCE_REVISION", "runtime-test-revision")
+    app = create_app(
+        CalculationRegistry(plugins=(FakePlugin(),)),
+        authenticator=AllowAllAuthenticator(),
+    )
+    client = TestClient(app)
+
+    response = client.get("/api/v1/about")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["runtime"]["name"] == "OpenCalcs"
+    assert payload["runtime"]["revision"] == "runtime-test-revision"
+    assert payload["runtime"]["license"] == "AGPL-3.0-only"
+    assert payload["runtime"]["source"] == "https://github.com/Elandu/OpenCalcs"
+    assert payload["plugins"][0]["id"] == "test.plugin"
