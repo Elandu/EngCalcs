@@ -93,3 +93,32 @@ The parent MCP owns discovery and generic execution. Domain modules may addition
 specialist MCP tools that do not fit the common calculation contract. Those module-specific
 surfaces should remain namespaced and share the same underlying calculation code rather than
 reimplementing formulae.
+
+
+## Licence and provenance
+
+OpenCalcs core is licensed under `AGPL-3.0-only`. See `LICENSE` and `NOTICE`.
+
+Canonical source: https://github.com/Elandu/OpenCalcs
+
+Substantive Python source files carry SPDX licence and copyright headers. The runtime
+injects provenance automatically into calculation descriptors and results, including:
+
+- OpenCalcs runtime version and source revision;
+- OpenCalcs licence and canonical source URL;
+- calculation plugin/engine ID, version, revision, licence and source URL;
+- calculation definition ID/version; and
+- standard metadata where supplied by the engineering module.
+
+The public metadata endpoint is:
+
+```text
+GET /api/v1/about
+```
+
+This endpoint does not require authentication and provides the source/licence identity of
+the running OpenCalcs service and its installed engineering plugins.
+
+Calculation results retain their normal engineering output fields and add the reserved
+`_provenance` object. This metadata is also persisted with saved calculation runs by the
+OpenCalcs SaaS layer.
