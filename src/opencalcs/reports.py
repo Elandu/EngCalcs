@@ -378,14 +378,26 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
             Paragraph("Software provenance", styles["H1"]),
             _kv_table(
                 [
-                    ("OpenCalcs version", runtime.get("version")),
-                    ("OpenCalcs revision", runtime.get("revision")),
-                    ("OpenCalcs source", runtime.get("source")),
-                    ("OpenCalcs licence", runtime.get("license")),
-                    ("Engine", _first(payload, "engine", "name")),
-                    ("Engine version", _first(payload, "engine", "version")),
-                    ("Engine revision", _first(payload, "engine", "revision")),
-                    ("Engine source", _first(payload, "engine", "source")),
+                    (
+                        "OpenCalcs runtime",
+                        f"{_text(runtime.get('version'))} · revision "
+                        f"{_text(runtime.get('revision'))}",
+                    ),
+                    (
+                        "Runtime source / licence",
+                        f"{_text(runtime.get('source'))} · "
+                        f"{_text(runtime.get('license'))}",
+                    ),
+                    (
+                        "Calculation engine",
+                        f"{_text(_first(payload, 'engine', 'name'))} "
+                        f"{_text(_first(payload, 'engine', 'version'))} · revision "
+                        f"{_text(_first(payload, 'engine', 'revision'))}",
+                    ),
+                    (
+                        "Engine source",
+                        _first(payload, "engine", "source"),
+                    ),
                 ]
             ),
             Spacer(1, 4 * mm),
