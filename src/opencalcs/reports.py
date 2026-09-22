@@ -15,7 +15,6 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.platypus import (
     KeepTogether,
-    PageBreak,
     Paragraph,
     SimpleDocTemplate,
     Spacer,
@@ -56,7 +55,13 @@ def _first(mapping: Any, *keys: str) -> Any:
 
 
 def _kv_table(rows: list[tuple[str, Any]], widths: tuple[float, float] = (55 * mm, 115 * mm)):
-    data = [[Paragraph(str(label), _styles()["TableLabel"]), Paragraph(_text(value), _styles()["Body"])] for label, value in rows]
+    data = [
+        [
+            Paragraph(str(label), _styles()["TableLabel"]),
+            Paragraph(_text(value), _styles()["Body"]),
+        ]
+        for label, value in rows
+    ]
     table = Table(data, colWidths=list(widths), hAlign="LEFT")
     table.setStyle(
         TableStyle(
@@ -146,7 +151,11 @@ def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]
     result = run.get("result_json") or {}
     if stage_key == "site":
         return [
-            ("Address", _first(result, "site", "address") or _first(result, "site", "display_name")),
+            (
+                "Address",
+                _first(result, "site", "address")
+                or _first(result, "site", "display_name"),
+            ),
             ("Latitude", _first(result, "site", "latitude")),
             ("Longitude", _first(result, "site", "longitude")),
             ("Site RL", _first(result, "site", "elevation_m")),
@@ -193,7 +202,14 @@ def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]
                     _first(result, "obstruction_summary", "total_obstructions"),
                 )
             )
-        rows.append(("Warnings", "; ".join(result.get("warnings", [])) if isinstance(result, dict) else "-"))
+        rows.append(
+            (
+                "Warnings",
+                "; ".join(result.get("warnings", []))
+                if isinstance(result, dict)
+                else "-",
+            )
+        )
         return rows
     if stage_key == "design":
         return [
@@ -251,7 +267,10 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
         _kv_table(
             [
                 ("Standard", "AS/NZS 1170.2:2021"),
-                ("Annual exceedance probability", design_inputs.get("annual_exceedance_probability")),
+                (
+                    "Annual exceedance probability",
+                    design_inputs.get("annual_exceedance_probability"),
+                ),
                 ("Structure class", design_inputs.get("structure_class")),
                 ("Overall building height", design_inputs.get("building_height_m")),
                 ("Average roof height", design_inputs.get("average_roof_height_m")),
@@ -301,7 +320,8 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
             [
                 Paragraph("Engineering overrides", styles["H1"]),
                 Paragraph(
-                    "The following engineer-entered overrides were applied and are retained in the immutable calculation history.",
+                    "The following engineer-entered overrides were applied and are "
+                    "retained in the immutable calculation history.",
                     styles["Body"],
                 ),
                 Spacer(1, 2 * mm),
@@ -359,7 +379,8 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
             ),
             Spacer(1, 4 * mm),
             Paragraph(
-                "This calculation pack records the reviewed calculation state and software provenance at the time of issue. "
+                "This calculation pack records the reviewed calculation state and "
+                "software provenance at the time of issue. "
                 "Subsequent project changes do not alter this issued revision.",
                 styles["Small"],
             ),
