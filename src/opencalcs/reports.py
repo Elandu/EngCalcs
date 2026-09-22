@@ -155,6 +155,47 @@ def _styles():
     }
 
 
+def _workflow_variable(
+    result: dict[str, Any],
+    variable: str,
+    direction: str | None = None,
+) -> float | None:
+    variables = result.get("variables")
+    if not isinstance(variables, list):
+        return None
+    for item in variables:
+        if not isinstance(item, dict) or item.get("variable") != variable:
+            continue
+        if direction is not None and item.get("direction") != direction:
+            continue
+        value = item.get("final_value")
+        if value is None:
+            value = item.get("recommended_value")
+        if isinstance(value, int | float):
+            return float(value)
+    return None
+
+
+def _directional_workflow_variables(
+    result: dict[str, Any],
+    variable: str,
+) -> str:
+    variables = result.get("variables")
+    if not isinstance(variables, list):
+        return ""
+    values: list[str] = []
+    for item in variables:
+        if not isinstance(item, dict) or item.get("variable") != variable:
+            continue
+        direction = item.get("direction")
+        value = item.get("final_value")
+        if value is None:
+            value = item.get("recommended_value")
+        if direction and isinstance(value, int | float):
+            values.append(f"{direction}: {_text(float(value))}")
+    return ", ".join(values)
+
+
 def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]:
     result = run.get("result_json") or {}
     if stage_key == "site":
