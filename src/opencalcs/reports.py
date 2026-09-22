@@ -209,13 +209,17 @@ def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]
             ("Site RL", _first(result, "site", "elevation_m")),
         ]
     if stage_key == "wind_region":
+        calculated_vr = _first(
+            result,
+            "regional_wind_speed_assessment",
+            "regional_wind_speed_mps",
+        ) or _first(result, "regional_wind_speed_assessment", "vr_mps")
+        adopted_vr = _workflow_variable(result, "VR")
         return [
             ("Wind region", _first(result, "wind_region_assessment", "wind_region")),
-            (
-                "Regional wind speed VR",
-                _first(result, "regional_wind_speed_assessment", "regional_wind_speed_mps")
-                or _first(result, "regional_wind_speed_assessment", "vr_mps"),
-            ),
+            ("Calculated VR", calculated_vr),
+            ("Adopted VR", adopted_vr if adopted_vr is not None else calculated_vr),
+            ("Adopted directional Md", _directional_workflow_variables(result, "Md")),
             ("Region confidence", _first(result, "wind_region_assessment", "confidence")),
             (
                 "Boundary distance",
