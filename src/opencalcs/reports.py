@@ -395,13 +395,6 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
                     ),
                 ]
             ),
-            Spacer(1, 4 * mm),
-            Paragraph(
-                "This calculation pack records the reviewed calculation state and "
-                "software provenance at the time of issue. "
-                "Subsequent project changes do not alter this issued revision.",
-                styles["Small"],
-            ),
         ]
     )
 
