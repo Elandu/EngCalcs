@@ -252,9 +252,7 @@ def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]
             rows.append(
                 (
                     "Adopted Mz,cat",
-                    _directional_workflow_variables(result, "Mzcat")
-                    or calculated_terrain
-                    or "-",
+                    _directional_workflow_variables(result, "Mzcat") or calculated_terrain or "-",
                 )
             )
         elif isinstance(variables, list):
