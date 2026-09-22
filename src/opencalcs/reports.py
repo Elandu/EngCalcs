@@ -135,6 +135,14 @@ def _styles():
             leading=10,
             textColor=colors.HexColor("#485D54"),
         ),
+        "TableHeader": ParagraphStyle(
+            "CalcTableHeader",
+            parent=styles["BodyText"],
+            fontName="Helvetica-Bold",
+            fontSize=7.5,
+            leading=9,
+            textColor=colors.white,
+        ),
         "Right": ParagraphStyle(
             "CalcRight",
             parent=styles["BodyText"],
@@ -295,17 +303,16 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
             continue
         run = stage.get("run") or {}
         review = stage.get("review") or {}
+        audit_line = (
+            f"Run {_text(run.get('run_sequence'))} · "
+            f"{_text(review.get('status')).title()} · "
+            f"Reviewed {_text(review.get('reviewed_at'))} by "
+            f"{_text(review.get('reviewer'))}"
+        )
         stage_block = [
             Paragraph(_STAGE_LABELS[stage_key], styles["H2"]),
-            _kv_table(
-                [
-                    ("Run sequence", run.get("run_sequence")),
-                    ("Run ID", run.get("id")),
-                    ("Review status", review.get("status")),
-                    ("Reviewer", review.get("reviewer")),
-                    ("Reviewed at", review.get("reviewed_at")),
-                ]
-            ),
+            Paragraph(audit_line, styles["Small"]),
+            Paragraph(f"Run ID: {_text(run.get('id'))}", styles["Small"]),
             Spacer(1, 1.5 * mm),
             _kv_table(_stage_summary(stage_key, run)),
             Spacer(1, 3 * mm),
@@ -324,14 +331,21 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
                 Spacer(1, 2 * mm),
             ]
         )
-        override_data = [["Variable", "Direction", "Adopted", "Reason"]]
+        override_data = [
+            [
+                Paragraph("Variable", styles["TableHeader"]),
+                Paragraph("Direction", styles["TableHeader"]),
+                Paragraph("Adopted", styles["TableHeader"]),
+                Paragraph("Reason", styles["TableHeader"]),
+            ]
+        ]
         for override in overrides:
             override_data.append(
                 [
-                    _text(override.get("variable")),
-                    _text(override.get("direction")),
-                    _text(override.get("override_value")),
-                    _text(override.get("reason")),
+                    Paragraph(_text(override.get("variable")), styles["Body"]),
+                    Paragraph(_text(override.get("direction")), styles["Body"]),
+                    Paragraph(_text(override.get("override_value")), styles["Body"]),
+                    Paragraph(_text(override.get("reason")), styles["Body"]),
                 ]
             )
         override_table = Table(
