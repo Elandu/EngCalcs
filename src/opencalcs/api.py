@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel, ConfigDict
 
 from opencalcs import __version__
@@ -20,6 +20,7 @@ from opencalcs.auth import (
 )
 from opencalcs.provenance import plugin_provenance, runtime_provenance
 from opencalcs.registry import CalculationRegistry
+from opencalcs.reports import build_wind_calculation_pack
 from opencalcs.workflows import run_openwind_site_workflow
 
 
@@ -27,6 +28,12 @@ class CalculationRunRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
 
     inputs: dict[str, Any]
+
+
+class WindCalculationPackRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    payload: dict[str, Any]
 
 
 def create_app(
@@ -100,6 +107,20 @@ def create_app(
             raise HTTPException(status_code=404, detail=str(exc)) from exc
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v1/reports/wind/calculation-pack")
+    def wind_calculation_pack(
+        request: WindCalculationPackRequest,
+        _auth: AuthContext = Depends(require_run),
+    ) -> Response:
+        """Render an issued Wind calculation pack from reviewed immutable records."""
+
+        pdf = build_wind_calculation_pack(request.payload)
+        return Response(
+            content=pdf,
+            media_type="application/pdf",
+            headers={"Content-Disposition": 'attachment; filename="wind-calculation-pack.pdf"'},
+        )
 
     @app.post("/api/v1/workflows/wind/site")
     async def wind_site_workflow(
