@@ -392,11 +392,8 @@ def build_wind_calculation_pack(payload: dict[str, Any]) -> bytes:
                         "Calculation engine",
                         f"{_text(_first(payload, 'engine', 'name'))} "
                         f"{_text(_first(payload, 'engine', 'version'))} · revision "
-                        f"{_text(_first(payload, 'engine', 'revision'))}",
-                    ),
-                    (
-                        "Engine source",
-                        _first(payload, "engine", "source"),
+                        f"{_text(_first(payload, 'engine', 'revision'))} · "
+                        f"{_text(_first(payload, 'engine', 'source'))}",
                     ),
                 ]
             ),
