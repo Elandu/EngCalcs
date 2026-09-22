@@ -153,8 +153,7 @@ def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]
         return [
             (
                 "Address",
-                _first(result, "site", "address")
-                or _first(result, "site", "display_name"),
+                _first(result, "site", "address") or _first(result, "site", "display_name"),
             ),
             ("Latitude", _first(result, "site", "latitude")),
             ("Longitude", _first(result, "site", "longitude")),
@@ -205,9 +204,7 @@ def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]
         rows.append(
             (
                 "Warnings",
-                "; ".join(result.get("warnings", []))
-                if isinstance(result, dict)
-                else "-",
+                "; ".join(result.get("warnings", [])) if isinstance(result, dict) else "-",
             )
         )
         return rows
