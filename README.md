@@ -23,7 +23,7 @@ openwind_au = "openwind_au.plugin:get_plugin"
 ```bash
 python -m venv .venv
 python -m pip install -e ".[dev]"
-python -m pip install "git+https://github.com/Elandu/OpenWind-AU.git@refactor/opencalcs-engine"
+python -m pip install "git+https://github.com/Elandu/OpenWind-AU.git@bc054f23d2645eb9dfe44b1b4b504a94ebec01db"
 uvicorn opencalcs.api:app --reload
 ```
 
