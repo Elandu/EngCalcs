@@ -228,25 +228,43 @@ def _stage_summary(stage_key: str, run: dict[str, Any]) -> list[tuple[str, Any]]
         ]
     if stage_key in {"terrain", "shielding", "topography"}:
         variables = result.get("variables") if isinstance(result, dict) else None
-        if not isinstance(variables, list) and stage_key == "terrain":
-            variables = _first(result, "mzcat_assessment")
+        calculated_terrain = ""
+        if stage_key == "terrain":
+            raw_mzcat = _first(result, "mzcat_assessment")
+            if isinstance(raw_mzcat, list):
+                raw_values: list[str] = []
+                for item in raw_mzcat:
+                    if not isinstance(item, dict):
+                        continue
+                    direction = item.get("direction") or item.get("wind_direction")
+                    value = (
+                        item.get("final_value")
+                        or item.get("recommended_value")
+                        or item.get("mzcat")
+                        or item.get("value")
+                    )
+                    if direction and value is not None:
+                        raw_values.append(f"{direction}: {_text(value)}")
+                calculated_terrain = ", ".join(raw_values)
         rows: list[tuple[str, Any]] = []
-        if isinstance(variables, list):
-            values = []
-            for item in variables:
-                if not isinstance(item, dict):
-                    continue
-                direction = item.get("direction") or item.get("wind_direction") or "-"
-                value = (
-                    item.get("final_value")
-                    or item.get("recommended_value")
-                    or item.get("mzcat")
-                    or item.get("value")
+        if stage_key == "terrain":
+            rows.append(("Calculated Mz,cat", calculated_terrain or "-"))
+            rows.append(
+                (
+                    "Adopted Mz,cat",
+                    _directional_workflow_variables(result, "Mzcat")
+                    or calculated_terrain
+                    or "-",
                 )
-                if value is not None:
-                    values.append(f"{direction}: {_text(value)}")
-            if values:
-                rows.append(("Directional adopted values", ", ".join(values)))
+            )
+        elif isinstance(variables, list):
+            variable_name = "Ms" if stage_key == "shielding" else "Mt"
+            rows.append(
+                (
+                    f"Adopted directional {variable_name}",
+                    _directional_workflow_variables(result, variable_name),
+                )
+            )
         if stage_key == "shielding":
             rows.append(
                 (
