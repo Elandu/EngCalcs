@@ -2,14 +2,14 @@
 
 OpenCalcs is the host platform for modular engineering calculation packages.
 
-The application owns calculation discovery, execution, persistence, project workflows and the user interface. Engineering formulae remain in independently versioned packages such as OpenWind-AU.
+The application owns calculation discovery, execution, persistence, and project workflows. The frontend is maintained separately in OpenCalcs-UI and consumes this API. Engineering formulae remain in independently versioned packages such as OpenWind-AU.
 
 ## Architecture
 
 - `src/opencalcs/plugins.py` discovers installed calculation packages through the `opencalcs.plugins` Python entry-point group.
 - `src/opencalcs/registry.py` combines those plugins into one calculation registry.
 - `src/opencalcs/api.py` exposes a single API for listing and running calculations.
-- `web/` is reserved for the React/Next.js application.
+- OpenCalcs-UI is the separately maintained frontend for identity, projects, and calculation workflows.
 
 OpenWind-AU exposes itself through:
 
@@ -23,6 +23,7 @@ openwind_au = "openwind_au.plugin:get_plugin"
 ```bash
 python -m venv .venv
 python -m pip install -e ".[dev]"
+python -m pip install -e ./plugins/pynite
 python -m pip install "git+https://github.com/Elandu/OpenWind-AU.git@bc054f23d2645eb9dfe44b1b4b504a94ebec01db"
 uvicorn opencalcs.api:app --reload
 ```
@@ -93,6 +94,10 @@ The parent MCP owns discovery and generic execution. Domain modules may addition
 specialist MCP tools that do not fit the common calculation contract. Those module-specific
 surfaces should remain namespaced and share the same underlying calculation code rather than
 reimplementing formulae.
+
+The `plugins/pynite` package registers the PyNite frame solver as a versioned OpenCalcs
+calculation engine. It is installed separately from the host so the host can keep its own
+dependencies and provenance boundary.
 
 
 ## Licence and provenance
