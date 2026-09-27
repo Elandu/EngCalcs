@@ -39,6 +39,26 @@ jobs:
       - name: Test
         run: pytest
 
+  pynite-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install OpenCalcs and PyNite adapter
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+          python -m pip install -e ./plugins/pynite
+
+      - name: Test PyNite adapter and OpenCalcs registry wiring
+        run: python -m pytest plugins/pynite/tests
+
   openwind-integration:
     runs-on: ubuntu-latest
 
