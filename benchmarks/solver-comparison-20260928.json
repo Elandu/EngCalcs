@@ -1,0 +1,300 @@
+{
+  "units": "kN, m, kPa, kN/m, kN m",
+  "stabileo_revision": "7d87e551b765c88956df95b375e0ef0befda53f7",
+  "relative_tolerances": {
+    "linear": 1e-06,
+    "p_delta": 0.001
+  },
+  "cases": [
+    {
+      "case": "cantilever_tip_y",
+      "targets": {
+        "tip_uy_m": -0.020833333333333332,
+        "root_reaction_y_kn": 10.0,
+        "root_moment_z_knm": 50.0
+      },
+      "solvers": {
+        "pynite": {
+          "version": "3.2.0",
+          "metrics": {
+            "tip_uy_m": {
+              "actual": -0.020833333333333336,
+              "expected": -0.020833333333333332,
+              "relative_error": 1.6653345369377348e-16,
+              "pass": true
+            },
+            "root_reaction_y_kn": {
+              "actual": 9.999999999999996,
+              "expected": 10.0,
+              "relative_error": 3.552713678800501e-16,
+              "pass": true
+            },
+            "root_moment_z_knm": {
+              "actual": 50.0,
+              "expected": 50.0,
+              "relative_error": 0.0,
+              "pass": true
+            }
+          },
+          "pass": true
+        },
+        "stabileo": {
+          "version": "local WASM build",
+          "metrics": {
+            "tip_uy_m": {
+              "actual": -0.020833333333333343,
+              "expected": -0.020833333333333332,
+              "relative_error": 4.996003610813204e-16,
+              "pass": true
+            },
+            "root_reaction_y_kn": {
+              "actual": 9.999999999999996,
+              "expected": 10.0,
+              "relative_error": 3.552713678800501e-16,
+              "pass": true
+            },
+            "root_moment_z_knm": {
+              "actual": 50.000000000000014,
+              "expected": 50.0,
+              "relative_error": 2.842170943040401e-16,
+              "pass": true
+            }
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "case": "cantilever_tip_z",
+      "targets": {
+        "tip_uz_m": -0.010416666666666666,
+        "root_reaction_z_kn": 10.0,
+        "root_moment_y_knm": -50.0
+      },
+      "solvers": {
+        "pynite": {
+          "version": "3.2.0",
+          "metrics": {
+            "tip_uz_m": {
+              "actual": -0.010416666666666668,
+              "expected": -0.010416666666666666,
+              "relative_error": 1.6653345369377348e-16,
+              "pass": true
+            },
+            "root_reaction_z_kn": {
+              "actual": 9.999999999999996,
+              "expected": 10.0,
+              "relative_error": 3.552713678800501e-16,
+              "pass": true
+            },
+            "root_moment_y_knm": {
+              "actual": -50.0,
+              "expected": -50.0,
+              "relative_error": 0.0,
+              "pass": true
+            }
+          },
+          "pass": true
+        },
+        "stabileo": {
+          "version": "local WASM build",
+          "metrics": {
+            "tip_uz_m": {
+              "actual": -0.010416666666666666,
+              "expected": -0.010416666666666666,
+              "relative_error": 0.0,
+              "pass": true
+            },
+            "root_reaction_z_kn": {
+              "actual": 10.0,
+              "expected": 10.0,
+              "relative_error": 0.0,
+              "pass": true
+            },
+            "root_moment_y_knm": {
+              "actual": -50.0,
+              "expected": -50.0,
+              "relative_error": 0.0,
+              "pass": true
+            }
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "case": "axial_tip_x",
+      "targets": {
+        "tip_ux_m": 2.5e-05,
+        "root_reaction_x_kn": -10.0
+      },
+      "solvers": {
+        "pynite": {
+          "version": "3.2.0",
+          "metrics": {
+            "tip_ux_m": {
+              "actual": 2.5e-05,
+              "expected": 2.5e-05,
+              "relative_error": 0.0,
+              "pass": true
+            },
+            "root_reaction_x_kn": {
+              "actual": -10.0,
+              "expected": -10.0,
+              "relative_error": 0.0,
+              "pass": true
+            }
+          },
+          "pass": true
+        },
+        "stabileo": {
+          "version": "local WASM build",
+          "metrics": {
+            "tip_ux_m": {
+              "actual": 2.4999999999999998e-05,
+              "expected": 2.5e-05,
+              "relative_error": 1.3552527156068805e-16,
+              "pass": true
+            },
+            "root_reaction_x_kn": {
+              "actual": -10.0,
+              "expected": -10.0,
+              "relative_error": 0.0,
+              "pass": true
+            }
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "case": "simply_supported_udl_y",
+      "targets": {
+        "mid_uy_m": -0.0008138020833333334,
+        "root_reaction_y_kn": 5.0,
+        "end_reaction_y_kn": 5.0,
+        "mid_moment_z_knm": 6.25
+      },
+      "solvers": {
+        "pynite": {
+          "version": "3.2.0",
+          "metrics": {
+            "mid_uy_m": {
+              "actual": -0.0008138020833333333,
+              "expected": -0.0008138020833333334,
+              "relative_error": 1.3322676295501878e-16,
+              "pass": true
+            },
+            "root_reaction_y_kn": {
+              "actual": 4.999999999999998,
+              "expected": 5.0,
+              "relative_error": 3.552713678800501e-16,
+              "pass": true
+            },
+            "end_reaction_y_kn": {
+              "actual": 4.999999999999998,
+              "expected": 5.0,
+              "relative_error": 3.552713678800501e-16,
+              "pass": true
+            },
+            "mid_moment_z_knm": {
+              "actual": 6.25,
+              "expected": 6.25,
+              "relative_error": 0.0,
+              "pass": true
+            }
+          },
+          "pass": true
+        },
+        "stabileo": {
+          "version": "local WASM build",
+          "metrics": {
+            "mid_uy_m": {
+              "actual": -0.0008138020833333328,
+              "expected": -0.0008138020833333334,
+              "relative_error": 6.661338147750939e-16,
+              "pass": true
+            },
+            "root_reaction_y_kn": {
+              "actual": 5.000000000000002,
+              "expected": 5.0,
+              "relative_error": 3.552713678800501e-16,
+              "pass": true
+            },
+            "end_reaction_y_kn": {
+              "actual": 5.0,
+              "expected": 5.0,
+              "relative_error": 0.0,
+              "pass": true
+            },
+            "mid_moment_z_knm": {
+              "actual": 6.2499999999999964,
+              "expected": 6.25,
+              "relative_error": 5.684341886080802e-16,
+              "pass": true
+            }
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "case": "p_delta_cantilever",
+      "targets": {
+        "tip_uy_m": -0.0022524166845042733,
+        "root_reaction_y_kn": 1.0,
+        "root_reaction_x_kn": 150.0
+      },
+      "solvers": {
+        "pynite": {
+          "version": "3.2.0",
+          "metrics": {
+            "tip_uy_m": {
+              "actual": -0.0022524166555718417,
+              "expected": -0.0022524166845042733,
+              "relative_error": 1.2845061811348784e-08,
+              "pass": true
+            },
+            "root_reaction_y_kn": {
+              "actual": 0.9999990947744883,
+              "expected": 1.0,
+              "relative_error": 9.052255116603902e-07,
+              "pass": true
+            },
+            "root_reaction_x_kn": {
+              "actual": 149.99999915612355,
+              "expected": 150.0,
+              "relative_error": 5.625842997384704e-09,
+              "pass": true
+            }
+          },
+          "pass": true
+        },
+        "stabileo": {
+          "version": "local WASM build",
+          "metrics": {
+            "tip_uy_m": {
+              "actual": -0.0022524166555714705,
+              "expected": -0.0022524166845042733,
+              "relative_error": 1.2845226625801818e-08,
+              "pass": true
+            },
+            "root_reaction_y_kn": {
+              "actual": 1.0120687687299963,
+              "expected": 1.0,
+              "relative_error": 0.012068768729996293,
+              "pass": false
+            },
+            "root_reaction_x_kn": {
+              "actual": 149.99999999999932,
+              "expected": 150.0,
+              "relative_error": 4.547473508864641e-15,
+              "pass": true
+            }
+          },
+          "pass": false
+        }
+      }
+    }
+  ]
+}
