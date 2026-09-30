@@ -59,6 +59,9 @@ jobs:
       - name: Test PyNite adapter and OpenCalcs registry wiring
         run: python -m pytest plugins/pynite/tests
 
+      - name: Run PyNite analytical frame benchmark
+        run: python benchmarks/compare_frame_solvers.py --json "$RUNNER_TEMP/pynite-benchmark.json"
+
   openwind-integration:
     runs-on: ubuntu-latest
 
@@ -74,7 +77,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
-          python -m pip install "git+https://github.com/Elandu/OpenWind-AU.git@bc054f23d2645eb9dfe44b1b4b504a94ebec01db"
+          python -m pip install -r requirements-render.txt
+
+      - name: Test OpenWind host integration
+        run: python -m pytest tests/test_workflows.py
 
       - name: Verify plugin discovery and execution
         run: |
@@ -84,9 +90,17 @@ jobs:
           registry = CalculationRegistry()
           plugin_ids = {plugin.id for plugin in registry.plugins}
           calculation_ids = {item["id"] for item in registry.list_calculations()}
+          expected_calculations = {
+              "au.wind.regional_wind_speed",
+              "au.wind.as4055.housing_assessment",
+              "au.wind.as4055.housing_surface_loads",
+              "au.wind.as4055.pressure_zone_areas",
+              "au.wind.as4055.racking_pressure",
+              "au.wind.frame_loads",
+          }
 
           assert "au.openwind" in plugin_ids
-          assert "au.wind.regional_wind_speed" in calculation_ids
+          assert expected_calculations <= calculation_ids
           assert registry.run(
               "au.wind.regional_wind_speed",
               {"region": "A2", "ari_years": 500},
