@@ -40,7 +40,9 @@ async def run_openwind_site_workflow(inputs: dict[str, Any]) -> dict[str, Any]:
     async with (
         httpx.AsyncClient(
             transport=transport,
-            base_url="http://openwind.internal",
+            # This is an in-process ASGI call. Use the host allowed by OpenWind's
+            # default policy and the documented production allowlist.
+            base_url="http://localhost",
             timeout=120.0,
         ) as client,
         client.stream(
