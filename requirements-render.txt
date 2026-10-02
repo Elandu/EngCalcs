@@ -1,3 +1,5 @@
 -e .
 -e ./plugins/pynite
 git+https://github.com/Elandu/OpenWind-AU.git@ec4485c73107029789939594e052663836bd3e2b#egg=openwind-au
+git+https://github.com/Elandu/OpenCalcs-AS3600.git@5446c998d5d773f04ba7801592a122869ff3cc50#egg=opencalcs-as3600
+git+https://github.com/Elandu/OpenCalcs-AS4100.git@9b9b6aa15f789a101cfa23afd48c08107ebf138a#egg=opencalcs-as4100
