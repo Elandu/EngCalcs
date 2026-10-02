@@ -105,4 +105,52 @@ jobs:
               "au.wind.regional_wind_speed",
               {"region": "A2", "ari_years": 500},
           )["regional_wind_speed_m_s"] > 0
+
+          # Structural section plugins pinned for production.
+          assert {"structural.as3600", "structural.as4100", "structural.pynite"} <= plugin_ids
+          steel = registry.run(
+              "structural.as4100.section_analysis",
+              {
+                  "gross_area_mm2": 2000,
+                  "net_area_mm2": 1500,
+                  "yield_strength_mpa": 250,
+                  "ultimate_strength_mpa": 400,
+                  "tension_distribution_factor": 0.8,
+                  "compression_form_factor": 0.8,
+                  "tension_action_kn": 200,
+                  "compression_action_kn": 135,
+              },
+          )
+          assert abs(steel["tension"]["design_capacity_kn"] - 367.2) < 1e-6
+          assert abs(steel["compression"]["design_capacity_kn"] - 270.0) < 1e-6
+          concrete = registry.run(
+              "structural.as3600.section_analysis",
+              {
+                  "section": {
+                      "width_mm": 300,
+                      "depth_mm": 500,
+                      "bars": [
+                          {"id": "B1", "area_mm2": 500, "x_mm": 60, "y_mm": 50},
+                          {"id": "B2", "area_mm2": 500, "x_mm": 150, "y_mm": 50},
+                          {"id": "B3", "area_mm2": 500, "x_mm": 240, "y_mm": 50},
+                      ],
+                  },
+                  "concrete": {
+                      "elastic_modulus_mpa": 30000,
+                      "compressive_strength_mpa": 32,
+                      "density_kg_m3": 2400,
+                      "stress_block_alpha": 0.8,
+                      "stress_block_gamma": 0.8,
+                      "ultimate_compressive_strain": 0.003,
+                  },
+                  "steel": {
+                      "elastic_modulus_mpa": 200000,
+                      "yield_strength_mpa": 500,
+                      "density_kg_m3": 7850,
+                      "fracture_strain": 0.05,
+                  },
+              },
+          )
+          assert concrete["standard_compliance_evaluated"] is False
+          assert concrete["ultimate"]["resultant_moment_knm"] > 0
           PY
