@@ -25,6 +25,8 @@ python -m venv .venv
 python -m pip install -e ".[dev]"
 python -m pip install -e ./plugins/pynite
 python -m pip install "git+https://github.com/Elandu/OpenWind-AU.git@bc054f23d2645eb9dfe44b1b4b504a94ebec01db"
+python -m pip install "git+https://github.com/Elandu/OpenCalcs-AS3600.git@v0.1.1"
+python -m pip install "git+https://github.com/Elandu/OpenCalcs-AS4100.git@9b9b6aa15f789a101cfa23afd48c08107ebf138a"
 uvicorn opencalcs.api:app --reload
 ```
 
