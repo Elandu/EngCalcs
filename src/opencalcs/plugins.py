@@ -1,29 +1,6 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# Copyright (c) 2026 Elandu and contributors
+"""Compatibility import for ``opencalcs.plugins``."""
 
-"""Discovery of installed engineering calculation plugins."""
+import sys as _sys
+from importlib import import_module as _import_module
 
-from __future__ import annotations
-
-from importlib.metadata import entry_points
-from typing import Any, Protocol
-
-
-class PluginProtocol(Protocol):
-    id: str
-    name: str
-    version: str
-    calculations: tuple[Any, ...]
-
-    def descriptor(self) -> dict[str, Any]: ...
-
-
-def discover_plugins() -> tuple[PluginProtocol, ...]:
-    """Load installed packages registered in the OpenCalcs plugin group."""
-
-    discovered: list[PluginProtocol] = []
-    for entry_point in entry_points(group="opencalcs.plugins"):
-        factory = entry_point.load()
-        plugin = factory()
-        discovered.append(plugin)
-    return tuple(sorted(discovered, key=lambda plugin: plugin.id))
+_sys.modules[__name__] = _import_module("engcalcs.plugins")

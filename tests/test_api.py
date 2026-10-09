@@ -4,9 +4,9 @@ from dataclasses import dataclass
 
 from fastapi.testclient import TestClient
 
-from opencalcs.api import create_app
-from opencalcs.auth import AllowAllAuthenticator
-from opencalcs.registry import CalculationRegistry
+from engcalcs.api import create_app
+from engcalcs.auth import AllowAllAuthenticator
+from engcalcs.registry import CalculationRegistry
 
 
 @dataclass(frozen=True)
@@ -34,7 +34,7 @@ class FakePlugin:
 
 
 def test_api_lists_and_runs_calculation(monkeypatch) -> None:
-    monkeypatch.setenv("OPENCALCS_SOURCE_REVISION", "runtime-test-revision")
+    monkeypatch.setenv("ENGCALCS_SOURCE_REVISION", "runtime-test-revision")
     app = create_app(
         CalculationRegistry(plugins=(FakePlugin(),)),
         authenticator=AllowAllAuthenticator(),
@@ -62,7 +62,7 @@ def test_api_lists_and_runs_calculation(monkeypatch) -> None:
 
 
 def test_about_exposes_source_and_licence_metadata(monkeypatch) -> None:
-    monkeypatch.setenv("OPENCALCS_SOURCE_REVISION", "runtime-test-revision")
+    monkeypatch.setenv("ENGCALCS_SOURCE_REVISION", "runtime-test-revision")
     app = create_app(
         CalculationRegistry(plugins=(FakePlugin(),)),
         authenticator=AllowAllAuthenticator(),
@@ -73,7 +73,7 @@ def test_about_exposes_source_and_licence_metadata(monkeypatch) -> None:
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["runtime"]["name"] == "OpenCalcs"
+    assert payload["runtime"]["name"] == "EngCalcs"
     assert payload["runtime"]["revision"] == "runtime-test-revision"
     assert payload["runtime"]["license"] == "AGPL-3.0-only"
     assert payload["runtime"]["source"] == "https://github.com/Elandu/OpenCalcs"

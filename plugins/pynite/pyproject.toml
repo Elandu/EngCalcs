@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "opencalcs-pynite"
+name = "engcalcs-pynite"
 version = "0.1.0"
-description = "PyNite 3D frame analysis plugin for OpenCalcs."
+description = "PyNite 3D frame analysis plugin for EngCalcs."
 requires-python = ">=3.11"
 license = "AGPL-3.0-only"
 dependencies = [
@@ -13,11 +13,14 @@ dependencies = [
   "PyniteFEA>=3.2.0,<4",
 ]
 
+[project.entry-points."engcalcs.plugins"]
+pynite = "engcalcs_pynite.plugin:get_plugin"
+
 [project.entry-points."opencalcs.plugins"]
 pynite = "opencalcs_pynite.plugin:get_plugin"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/opencalcs_pynite"]
+packages = ["src/engcalcs_pynite", "src/opencalcs_pynite"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

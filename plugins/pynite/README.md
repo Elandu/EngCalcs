@@ -1,6 +1,6 @@
-# OpenCalcs PyNite plugin
+# EngCalcs PyNite plugin
 
-This package registers a PyNite-backed 3D elastic frame calculation with the OpenCalcs plugin
+This package registers a PyNite-backed 3D elastic frame calculation with the EngCalcs plugin
 host. The initial workflow supports nodes, frame members, material and section properties, nodal
 and distributed member loads, supports, load cases, combinations, linear analysis, and P-Delta
 analysis.
@@ -9,7 +9,7 @@ The calculation uses a consistent SI input set: kN, m, kPa, kN/m, and kN·m. It 
 capacity checker. Plates and shells, buckling analysis, and connection design are outside this
 plugin's current model contract.
 
-Install in a development OpenCalcs environment with:
+Install in a development EngCalcs environment with:
 
 ```powershell
 python -m pip install -e .

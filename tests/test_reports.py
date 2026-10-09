@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from opencalcs.reports import build_wind_calculation_pack
+from engcalcs.reports import build_wind_calculation_pack
 
 
 def sample_payload() -> dict:
@@ -109,7 +109,7 @@ def sample_payload() -> dict:
             }
         ],
         "runtime": {
-            "name": "OpenCalcs",
+            "name": "EngCalcs",
             "version": "0.1.0",
             "revision": "runtime-revision",
             "license": "AGPL-3.0-only",
@@ -134,4 +134,4 @@ def test_wind_calculation_pack_is_pdf() -> None:
 
     assert pdf.startswith(b"%PDF-")
     assert len(pdf) > 5_000
-    assert b"OpenCalcs" in pdf
+    assert b"EngCalcs" in pdf
