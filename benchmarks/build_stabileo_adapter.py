@@ -30,7 +30,7 @@ def main():
     shutil.copyfile(Path(__file__).with_name("stabileo_adapter.rs"), build / "src" / "lib.rs")
     engine_path = json.dumps((source / "engine").as_posix())
     (build / "Cargo.toml").write_text(
-        '[package]\nname = "opencalcs-solver-benchmarks"\nversion = "0.1.0"\nedition = "2021"\n'
+        '[package]\nname = "engcalcs-solver-benchmarks"\nversion = "0.1.0"\nedition = "2021"\n'
         '[lib]\ncrate-type = ["cdylib"]\n[dependencies]\n'
         f"dedaliano-engine = {{ path = {engine_path}, default-features = false }}\n"
         'serde_json = "=1.0.151"\n',
@@ -50,7 +50,7 @@ def main():
         ],
         check=True,
     )
-    print(build / "target/wasm32-unknown-unknown/release/opencalcs_solver_benchmarks.wasm")
+    print(build / "target/wasm32-unknown-unknown/release/engcalcs_solver_benchmarks.wasm")
 
 
 if __name__ == "__main__":

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import opencalcs.mcp_server as mcp_server
-from opencalcs.registry import CalculationRegistry
+import engcalcs.mcp_server as mcp_server
+from engcalcs.registry import CalculationRegistry
 
 
 @dataclass(frozen=True)
@@ -41,7 +41,7 @@ class FakePlugin:
 
 
 def test_mcp_catalog_and_execution_use_shared_registry(monkeypatch) -> None:
-    monkeypatch.setenv("OPENCALCS_SOURCE_REVISION", "runtime-test-revision")
+    monkeypatch.setenv("ENGCALCS_SOURCE_REVISION", "runtime-test-revision")
     registry = CalculationRegistry(plugins=(FakePlugin(),))
     monkeypatch.setattr(mcp_server, "runtime", registry)
 

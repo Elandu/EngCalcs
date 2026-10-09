@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import pytest
+from engcalcs.api import create_app
+from engcalcs.auth import AllowAllAuthenticator
+from engcalcs.registry import CalculationRegistry
 from fastapi.testclient import TestClient
-from opencalcs.api import create_app
-from opencalcs.auth import AllowAllAuthenticator
-from opencalcs.registry import CalculationRegistry
 
-from opencalcs_pynite.plugin import CALCULATION_ID, get_plugin
+from engcalcs_pynite.plugin import CALCULATION_ID, get_plugin
 
 
 @pytest.fixture
@@ -145,7 +145,7 @@ def test_unrestrained_frame_does_not_return_apparent_success(simple_beam_inputs:
         get_plugin().calculations[0].run(simple_beam_inputs)
 
 
-def test_opencalcs_registry_discovers_and_runs_pynite(simple_beam_inputs: dict) -> None:
+def test_engcalcs_registry_discovers_and_runs_pynite(simple_beam_inputs: dict) -> None:
     registry = CalculationRegistry()
 
     assert "structural.pynite" in {plugin.id for plugin in registry.plugins}
@@ -158,7 +158,7 @@ def test_opencalcs_registry_discovers_and_runs_pynite(simple_beam_inputs: dict) 
     assert result["_provenance"]["engine"]["id"] == "structural.pynite"
 
 
-def test_opencalcs_api_exposes_and_runs_pynite(simple_beam_inputs: dict) -> None:
+def test_engcalcs_api_exposes_and_runs_pynite(simple_beam_inputs: dict) -> None:
     client = TestClient(create_app(authenticator=AllowAllAuthenticator()))
 
     definition = client.get(f"/api/v1/calculations/{CALCULATION_ID}")

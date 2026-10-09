@@ -1,4 +1,4 @@
-"""Compare the OpenCalcs PyNite path and Stabileo against beam theory.
+"""Compare the EngCalcs PyNite path and Stabileo against beam theory.
 
 Usage:
   python benchmarks/compare_frame_solvers.py [--stabileo-wasm PATH] [--json PATH]
@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "plugins" / "pynite" / "src"))
-from opencalcs_pynite.plugin import get_plugin  # noqa: E402
+from engcalcs_pynite.plugin import get_plugin  # noqa: E402
 
 E_KPA = 200_000_000.0
 E_MPA = E_KPA / 1000.0
