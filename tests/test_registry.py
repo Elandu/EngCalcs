@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from opencalcs.registry import CalculationRegistry
+from engcalcs.registry import CalculationRegistry
 
 
 @dataclass(frozen=True)
@@ -32,7 +32,7 @@ class FakePlugin:
 
 
 def test_registry_lists_and_runs_calculations(monkeypatch) -> None:
-    monkeypatch.setenv("OPENCALCS_SOURCE_REVISION", "runtime-test-revision")
+    monkeypatch.setenv("ENGCALCS_SOURCE_REVISION", "runtime-test-revision")
     registry = CalculationRegistry(
         plugins=(FakePlugin("test.plugin", "Test", "1", (FakeCalculation("test.double"),)),)
     )
@@ -44,7 +44,7 @@ def test_registry_lists_and_runs_calculations(monkeypatch) -> None:
         "name": "Test",
         "version": "1",
     }
-    assert descriptor["runtime"]["name"] == "OpenCalcs"
+    assert descriptor["runtime"]["name"] == "EngCalcs"
     assert descriptor["runtime"]["revision"] == "runtime-test-revision"
     assert descriptor["runtime"]["license"] == "AGPL-3.0-only"
     assert descriptor["runtime"]["source"] == "https://github.com/Elandu/OpenCalcs"

@@ -1,6 +1,5 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# Copyright (c) 2026 Elandu and contributors
+"""Compatibility namespace for the former OpenCalcs Python package."""
 
-"""OpenCalcs calculation host."""
+from engcalcs import __version__
 
-__version__ = "0.1.0"
+__all__ = ["__version__"]

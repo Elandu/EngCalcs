@@ -50,13 +50,13 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install OpenCalcs and PyNite adapter
+      - name: Install EngCalcs and PyNite adapter
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
           python -m pip install -e ./plugins/pynite
 
-      - name: Test PyNite adapter and OpenCalcs registry wiring
+      - name: Test PyNite adapter and EngCalcs registry wiring
         run: python -m pytest plugins/pynite/tests
 
       - name: Run PyNite analytical frame benchmark
@@ -73,7 +73,7 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install OpenCalcs and OpenWind
+      - name: Install EngCalcs and OpenWind
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
@@ -85,7 +85,7 @@ jobs:
       - name: Verify plugin discovery and execution
         run: |
           python - <<'PY'
-          from opencalcs.registry import CalculationRegistry
+          from engcalcs.registry import CalculationRegistry
 
           registry = CalculationRegistry()
           plugin_ids = {plugin.id for plugin in registry.plugins}

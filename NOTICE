@@ -1,19 +1,19 @@
-OpenCalcs
+EngCalcs
 Copyright (c) 2026 Elandu and contributors
 
-OpenCalcs is licensed under the GNU Affero General Public License v3.0 only
+EngCalcs is licensed under the GNU Affero General Public License v3.0 only
 (AGPL-3.0-only). See LICENSE for the full licence text.
 
 Canonical source:
-https://github.com/Elandu/OpenCalcs
+https://github.com/Elandu/EngCalcs
 
-If you modify OpenCalcs and make the modified program available for remote
+If you modify EngCalcs and make the modified program available for remote
 network interaction, the AGPL requires that users be offered the corresponding
 source code for the version with which they interact.
 
-OpenCalcs calculation responses expose runtime and plugin provenance so that
+EngCalcs calculation responses expose runtime and plugin provenance so that
 engineering records can identify the software version that produced them.
 
-The OpenCalcs name and branding are not granted for use beyond rights that may
+The EngCalcs name and branding are not granted for use beyond rights that may
 otherwise exist under applicable law. The software licence does not grant
 trademark rights.

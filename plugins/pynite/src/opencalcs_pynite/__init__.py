@@ -1,5 +1,5 @@
-"""PyNite-backed structural analysis calculations for OpenCalcs."""
+"""Compatibility namespace for the former opencalcs_pynite package."""
 
-from opencalcs_pynite.plugin import get_plugin
+from engcalcs_pynite import get_plugin
 
 __all__ = ["get_plugin"]

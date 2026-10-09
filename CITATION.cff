@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use OpenCalcs, please cite it using this metadata."
-title: "OpenCalcs"
+message: "If you use EngCalcs, please cite it using this metadata."
+title: "EngCalcs"
 version: "0.1.0"
 authors:
   - name: "Elandu"
@@ -13,6 +13,6 @@ keywords:
   - MCP
   - Australia
 abstract: >-
-  OpenCalcs is a modular engineering calculation runtime and integration layer
+  EngCalcs is a modular engineering calculation runtime and integration layer
   for versioned calculation plugins, REST APIs, MCP tooling, provenance and
   linked engineering workflows.
