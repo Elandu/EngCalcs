@@ -10,7 +10,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import StreamingResponse
 from starlette.routing import Route
 
-from opencalcs import workflows
+from engcalcs import workflows
 
 
 def test_embedded_wind_workflow_respects_openwind_host_policy(monkeypatch) -> None:

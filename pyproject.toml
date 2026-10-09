@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "opencalcs"
+name = "engcalcs"
 version = "0.1.0"
 description = "Modular engineering calculation host and API."
 readme = "README.md"
@@ -24,7 +24,8 @@ Repository = "https://github.com/Elandu/OpenCalcs"
 Issues = "https://github.com/Elandu/OpenCalcs/issues"
 
 [project.scripts]
-opencalcs-mcp = "opencalcs.mcp_server:main"
+engcalcs-mcp = "engcalcs.mcp_server:main"
+opencalcs-mcp = "engcalcs.mcp_server:main"
 
 [project.optional-dependencies]
 dev = [
@@ -33,7 +34,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/opencalcs"]
+packages = ["src/engcalcs", "src/opencalcs"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -47,4 +48,4 @@ target-version = "py311"
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/opencalcs/api.py" = ["B008"]
+"src/engcalcs/api.py" = ["B008"]
