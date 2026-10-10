@@ -157,10 +157,31 @@ def _schema_check(contract: ConnectionContract, source: dict[str, Any], target: 
     dst = _field_schema(target.get("input_schema"), contract.input_path)
     if src is None or dst is None:
         return False, "A declared source output or destination input schema is missing."
+    # A direct output path must exist in *every* valid source result, not just
+    # be declared as an optional field. Reject unresolved references instead
+    # of guessing that a missing output will be present at runtime.
+    schema = source.get("output_schema")
+    for component in (contract.output_path or "").strip("/").split("/"):
+        if not isinstance(schema, dict):
+            return False, "The source schema cannot prove this output path."
+        if schema.get("type") == "array":
+            if not component.isdecimal() or "minItems" not in schema:
+                return False, "Array index availability is not proven."
+            if int(component) >= schema["minItems"]:
+                return False, "Array index is not guaranteed by the declared schema."
+            schema = schema.get("items")
+        else:
+            if component.replace("~1", "/").replace("~0", "~") not in schema.get("required", []):
+                return False, "The linked source field is not a required output."
+            schema = schema.get("properties", {}).get(
+                component.replace("~1", "/").replace("~0", "~")
+            )
     src_type, dst_type = src.get("type"), dst.get("type")
     if src_type is None or dst_type is None or src_type != dst_type:
         return False, "Source and destination JSON types do not match."
     source_unit, target_unit = src.get("unit"), dst.get("unit")
+    if src_type in {"integer", "number"} and (not source_unit or not target_unit):
+        return False, "Numerical links require explicit source and destination units."
     if contract.unit:
         if source_unit != contract.unit or target_unit != contract.unit:
             return False, f"Both endpoints must explicitly declare unit {contract.unit}."
@@ -208,7 +229,9 @@ def connection_catalogue(
             "unit": contract.unit,
             "installed": installed,
             "direct_link_ready": installed and compatible,
-            "requires_engineer_review": contract.mode != "direct",
+            "requires_engineer_review": True,
+            "requires_adapter": contract.mode == "adapter_required",
+            "automated_transfer_allowed": installed and compatible,
             "reason": contract.reason,
             "verification": detail,
         })
