@@ -37,7 +37,8 @@ class FakeRegistry:
 
 def roof_modules(unit: str = "m2", required: bool = True) -> FakeRegistry:
     source = Calc(
-        "stormwater.as3500.roof_catchment", {},
+        "stormwater.as3500.roof_catchment",
+        {},
         {
             "type": "object",
             "required": ["results"],
@@ -45,9 +46,7 @@ def roof_modules(unit: str = "m2", required: bool = True) -> FakeRegistry:
                 "results": {
                     "type": "object",
                     "required": ["catchment_area_m2"] if required else [],
-                    "properties": {
-                        "catchment_area_m2": {"type": "number", "unit": "m2"}
-                    },
+                    "properties": {"catchment_area_m2": {"type": "number", "unit": "m2"}},
                 },
             },
         },
@@ -56,9 +55,7 @@ def roof_modules(unit: str = "m2", required: bool = True) -> FakeRegistry:
         "stormwater.as3500.roof_flow",
         {
             "type": "object",
-            "properties": {
-                "catchment_area_m2": {"type": "number", "unit": unit},
-            },
+            "properties": {"catchment_area_m2": {"type": "number", "unit": unit}},
         },
         {},
     )
@@ -69,8 +66,12 @@ def test_engineering_module_catalogue_is_accurate_about_missing_packages() -> No
     catalogue = module_catalogue(FakeRegistry())
     assert len(catalogue) == 7
     assert {item["id"] for item in catalogue} == {
-        "au.openwind", "structural.as1170", "structural.pynite",
-        "structural.as3600", "structural.as4100", "structural.as1720",
+        "au.openwind",
+        "structural.as1170",
+        "structural.pynite",
+        "structural.as3600",
+        "structural.as4100",
+        "structural.as1720",
         "stormwater.as3500",
     }
     assert all(item["installed"] is False for item in catalogue)
@@ -81,13 +82,17 @@ def test_engineering_module_catalogue_is_accurate_about_missing_packages() -> No
     assert stormwater["installed"] is True
     assert stormwater["version"] == "0.2.0"
     assert stormwater["calculation_ids"] == [
-        "stormwater.as3500.roof_catchment", "stormwater.as3500.roof_flow",
+        "stormwater.as3500.roof_catchment",
+        "stormwater.as3500.roof_flow",
     ]
 
 
 def test_only_verified_units_and_guaranteed_fields_enable_direct_roof_link() -> None:
-    entry = next(row for row in connection_catalogue(roof_modules())
-                 if row["id"] == "as3500-roof-area-to-roof-flow")
+    entry = next(
+        row
+        for row in connection_catalogue(roof_modules())
+        if row["id"] == "as3500-roof-area-to-roof-flow"
+    )
     assert entry["mode"] == "direct"
     assert entry["installed"] is True
     assert entry["direct_link_ready"] is True
@@ -97,13 +102,19 @@ def test_only_verified_units_and_guaranteed_fields_enable_direct_roof_link() -> 
     assert entry["target_input_path"] == "/catchment_area_m2"
     assert entry["unit"] == "m2"
 
-    mismatch = next(row for row in connection_catalogue(roof_modules(unit="cm2"))
-                    if row["id"] == "as3500-roof-area-to-roof-flow")
+    mismatch = next(
+        row
+        for row in connection_catalogue(roof_modules(unit="cm2"))
+        if row["id"] == "as3500-roof-area-to-roof-flow"
+    )
     assert mismatch["direct_link_ready"] is False
     assert "unit" in mismatch["verification"].lower()
 
-    optional = next(row for row in connection_catalogue(roof_modules(required=False))
-                    if row["id"] == "as3500-roof-area-to-roof-flow")
+    optional = next(
+        row
+        for row in connection_catalogue(roof_modules(required=False))
+        if row["id"] == "as3500-roof-area-to-roof-flow"
+    )
     assert optional["direct_link_ready"] is False
     assert "required" in optional["verification"].lower()
 
@@ -129,10 +140,10 @@ def test_frame_design_links_are_never_implicitly_executable() -> None:
 
 def test_calculation_filter_preserves_only_relevant_contracts() -> None:
     all_conns = connection_catalogue(roof_modules())
-    filtered = connection_catalogue(
-        roof_modules(), calculation_id="stormwater.as3500.roof_flow"
-    )
+    filtered = connection_catalogue(roof_modules(), calculation_id="stormwater.as3500.roof_flow")
     assert 0 < len(filtered) < len(all_conns)
-    assert all(item["target_calculation_id"] == "stormwater.as3500.roof_flow" or
-               item["source_calculation_id"] == "stormwater.as3500.roof_flow"
-               for item in filtered)
+    assert all(
+        item["target_calculation_id"] == "stormwater.as3500.roof_flow"
+        or item["source_calculation_id"] == "stormwater.as3500.roof_flow"
+        for item in filtered
+    )
