@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
+
 """Guard the deployed engineering module catalogue against floating Git references."""
 
 import re
