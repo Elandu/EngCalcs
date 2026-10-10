@@ -16,7 +16,6 @@ from engcalcs.auth import AllowAllAuthenticator
 from engcalcs.connections import connection_catalogue, module_catalogue
 from engcalcs.registry import CalculationRegistry
 
-
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_PLUGINS = {
     "au.openwind",
