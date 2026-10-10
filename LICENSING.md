@@ -18,3 +18,31 @@ corresponding deployable revisions are lawfully relicensed.
 **Repository privacy:** the source is currently hosted in a public repository.
 Making it private requires a separate GitHub administrator setting change;
 changing `LICENSE` alone does not prevent copying of already public code.
+
+## Private-module deployment dependency
+
+The Render deployment installs six pinned GitHub-hosted engine modules from
+`requirements-render.txt` using `git+https://github.com/Elandu/...` URLs.
+Changing these module repositories from public to private **before** a tested
+read-only cross-repository installation credential is available will break
+fresh deploys, even when the EngCalcs host repository itself remains connected
+to Render. GitHub Actions CI has the same independent repository-access issue.
+
+Before switching repository visibility:
+
+1. Configure a narrowly scoped GitHub App installation or fine-grained token
+   with read-only repository Contents access to all six private modules.
+2. Make it available securely to the Render **build** environment and GitHub
+   Actions jobs that install those pinned GitHub dependencies, never via a URL
+   in committed source or printed installation logs.
+3. Validate a staging build and module/plugin discovery with that credential;
+   confirm `GET /api/v1/about` reports the intended installed versions and
+   licences and that ordinary calculations still work.
+4. Verify Vercel retains access to EngCalcs-UI when that repository is private.
+5. Make repositories private only after these checks, then rotate any temporary
+   credentials and confirm no public build artefacts expose source or secrets.
+
+Changing privacy settings also does not remove forks/clones of historical
+AGPL-licensed versions or rewrite existing rights. Owner approval and a legal
+chain-of-title review remain necessary for third-party contributions or copied
+materials. Do not modify the engineering formulas to conceal their origins.
