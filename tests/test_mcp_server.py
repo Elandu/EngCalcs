@@ -55,3 +55,13 @@ def test_mcp_catalog_and_execution_use_shared_registry(monkeypatch) -> None:
     assert result["result"]["value"] == 10
     assert result["provenance"]["runtime"]["revision"] == "runtime-test-revision"
     assert result["provenance"]["engine"]["id"] == "test.plugin"
+
+
+def test_mcp_module_and_link_discovery_remains_read_only(monkeypatch) -> None:
+    registry = CalculationRegistry(plugins=(FakePlugin(),))
+    monkeypatch.setattr(mcp_server, "runtime", registry)
+    modules = mcp_server.list_engineering_modules()
+    links = mcp_server.list_calculation_connections()
+    assert all(not module["installed"] for module in modules)
+    assert all(not link["automated_transfer_allowed"] for link in links)
+    assert mcp_server.list_calculation_connections("test.double") == []

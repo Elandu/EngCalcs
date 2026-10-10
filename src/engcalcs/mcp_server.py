@@ -26,6 +26,7 @@ from engcalcs.auth import (
     EngCalcsAuthenticator,
     is_api_key_token,
 )
+from engcalcs.connections import connection_catalogue, module_catalogue
 from engcalcs.provenance import plugin_provenance, runtime_provenance
 from engcalcs.registry import CalculationRegistry
 from engcalcs.workflows import run_openwind_site_workflow
@@ -141,6 +142,28 @@ def list_calculations(
             if str(item.get("category", "")).casefold() == category.casefold()
         ]
     return calculations
+
+
+@mcp.tool()
+def list_engineering_modules() -> list[dict[str, Any]]:
+    """List supported AS modules, declared calculation scope and installed versions."""
+
+    _require_scope(CALCULATIONS_READ)
+    return module_catalogue(runtime)
+
+
+@mcp.tool()
+def list_calculation_connections(
+    calculation_id: str | None = None,
+) -> list[dict[str, Any]]:
+    """Show compatible direct links and engineering review/adapter requirements.
+
+    Catalogue entries are advisory. Calling this tool does not calculate,
+    transfer, accept or approve a design input.
+    """
+
+    _require_scope(CALCULATIONS_READ)
+    return connection_catalogue(runtime, calculation_id=calculation_id)
 
 
 @mcp.tool()

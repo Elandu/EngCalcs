@@ -26,9 +26,8 @@ openwind_au = "openwind_au.plugin:get_plugin"
 python -m venv .venv
 python -m pip install -e ".[dev]"
 python -m pip install -e ./plugins/pynite
-python -m pip install "git+https://github.com/Elandu/OpenWind-AU.git@bc054f23d2645eb9dfe44b1b4b504a94ebec01db"
-python -m pip install "git+https://github.com/Elandu/OpenCalcs-AS3600.git@engcalcs-rebrand"
-python -m pip install "git+https://github.com/Elandu/OpenCalcs-AS4100.git@engcalcs-rebrand"
+# The deployment manifest installs seven pinned engineering modules, including PyNite.
+python -m pip install -r requirements-render.txt
 uvicorn engcalcs.api:app --reload
 ```
 
@@ -60,6 +59,8 @@ GET  /api/v1/plugins
 GET  /api/v1/calculations
 GET  /api/v1/calculations/{calculation_id}
 POST /api/v1/calculations/{calculation_id}/run
+GET  /api/v1/modules
+GET  /api/v1/connections?calculation_id=<id>
 ```
 
 The original unversioned `/api/...` routes are retained as compatibility aliases.
@@ -73,6 +74,8 @@ list_plugins
 list_calculations
 describe_calculation
 run_calculation
+list_engineering_modules
+list_calculation_connections
 ```
 
 A calculation is addressed by its stable identifier, for example
@@ -93,6 +96,36 @@ EngCalcs REST / MCP
        +-- future OpenSteel-AU
        +-- future OpenConcrete-AU
 ```
+
+## Engineering module integration
+
+The pinned Python deployment includes the wind engine (AS/NZS 1170.2 and AS 4055),
+structural actions (AS/NZS 1170.0/1), frame analysis (PyNite),
+selected AS 3600 and AS 4100 section checks, F-grade AS 1720 timber strength
+checks, and AS/NZS 3500.3 stormwater functions.
+
+The host publishes the installed module list, exact plugin versions and
+calculation descriptors through REST and MCP. It also advertises **connection
+contracts**, which distinguish:
+
+- `direct`: a required source output and target input have compatible JSON
+  types and matching explicit units, e.g. an AS 3500 roof catchment area
+  flowing into the AS 3500 roof-flow calculation.
+- `reviewed_import`: values can be carried through a dedicated validation
+  process after the engineer confirms load cases, member identifiers, axes and
+  other assumptions (e.g. wind actions to frame analysis).
+- `adapter_required`: a meaningful engineering conversion or selection is
+  needed before transfer. A frame force diagram must not be silently used as
+  an AS 3600, AS 4100 or AS 1720 design action.
+
+The endpoints are **metadata only**. They neither execute calculations nor
+approve/transfer design values. Every dependency still requires professional
+review and saved run provenance. A declared connection contract is not an
+independent certification of a calculation module. Source validation is
+documented by each owning module's own test corpus.
+
+Integration CI executes the pinned AS plugins through the one registry and
+asserts that REST and MCP describe the same module and link status.
 
 The parent MCP owns discovery and generic execution. Domain modules may additionally expose
 specialist MCP tools that do not fit the common calculation contract. Those module-specific

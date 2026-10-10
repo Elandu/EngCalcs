@@ -78,3 +78,23 @@ def test_about_exposes_source_and_licence_metadata(monkeypatch) -> None:
     assert payload["runtime"]["license"] == "AGPL-3.0-only"
     assert payload["runtime"]["source"] == "https://github.com/Elandu/OpenCalcs"
     assert payload["plugins"][0]["id"] == "test.plugin"
+
+
+def test_api_discovery_exposes_installed_and_unavailable_module_contracts() -> None:
+    app = create_app(
+        CalculationRegistry(plugins=(FakePlugin(),)),
+        authenticator=AllowAllAuthenticator(),
+    )
+    client = TestClient(app)
+    modules = client.get("/api/v1/modules")
+    connections = client.get("/api/v1/connections")
+    assert modules.status_code == connections.status_code == 200
+    assert modules.json() == client.get("/api/modules").json()
+    assert connections.json() == client.get("/api/connections").json()
+    assert all(row["installed"] is False for row in modules.json())
+    assert all(row["automated_transfer_allowed"] is False for row in connections.json())
+    assert client.get(
+        "/api/v1/connections",
+        params={"calculation_id": "structural.as4100.section_analysis"},
+    ).json()
+    assert client.get("/api/v1/connections", params={"calculation_id": "test.double"}).json() == []
