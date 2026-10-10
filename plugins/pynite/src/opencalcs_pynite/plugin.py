@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+
 """Compatibility import for ``opencalcs_pynite.plugin``."""
 
 import sys as _sys

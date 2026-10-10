@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+
 """Guard the deployed engineering module catalogue against floating Git references."""
 
 import re

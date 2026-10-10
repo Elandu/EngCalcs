@@ -610,7 +610,7 @@ class PynitePlugin:
     version: str = PLUGIN_VERSION
     revision: str | None = None
     license: str | None = "AGPL-3.0-only"
-    source: str | None = "https://github.com/Elandu/OpenCalcs/tree/main/plugins/pynite"
+    source: str | None = "https://github.com/Elandu/EngCalcs/tree/main/plugins/pynite"
     calculations: tuple[PyniteFrameAnalysis, ...] = (PyniteFrameAnalysis(),)
 
     def descriptor(self) -> dict[str, Any]:

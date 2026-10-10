@@ -1,8 +1,8 @@
 -e .
 -e ./plugins/pynite
-git+https://github.com/Elandu/EngCalcs-Wind.git@33b3a2d5d19738eca62d16a104ae1ef5e2b61860#egg=openwind-au
-git+https://github.com/Elandu/EngCalcs-AS1170.git@4f12209200c8172f918e248ee73e75be0df97cee#egg=engcalcs-as1170
-git+https://github.com/Elandu/EngCalcs-AS1720.git@e2cfb2893da948d99c204e6f0857bc4d01ccf72b#egg=opencalcs-as1720
-git+https://github.com/Elandu/EngCalcs-AS3500.git@09ce33667a32d9e5870b53de4101565651cabde8#egg=opencalcs-as3500
-git+https://github.com/Elandu/EngCalcs-AS3600.git@5446c998d5d773f04ba7801592a122869ff3cc50#egg=opencalcs-as3600
-git+https://github.com/Elandu/EngCalcs-AS4100.git@9b9b6aa15f789a101cfa23afd48c08107ebf138a#egg=opencalcs-as4100
+git+https://github.com/Elandu/EngCalcs-Wind.git@e346e3e97bf79d130268bf8cd3a765b2db577010#egg=openwind-au
+git+https://github.com/Elandu/EngCalcs-AS1170.git@6955b33002a9413358d20959238d9f23ec698798#egg=engcalcs-as1170
+git+https://github.com/Elandu/EngCalcs-AS1720.git@3a0603f3cd9ccc12c6bb2d7b32e4937b21d4796e#egg=opencalcs-as1720
+git+https://github.com/Elandu/EngCalcs-AS3500.git@8e98e7f26ae804487ceb3c12a1112cc83a662b92#egg=opencalcs-as3500
+git+https://github.com/Elandu/EngCalcs-AS3600.git@45017189936fae7b063b613ecb972cbedb9f7e3f#egg=opencalcs-as3600
+git+https://github.com/Elandu/EngCalcs-AS4100.git@0b30846b4a237c0943c001b3cde5eb0e4aaa9087#egg=opencalcs-as4100

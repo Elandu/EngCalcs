@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+
 from __future__ import annotations
 
 from engcalcs.reports import build_wind_calculation_pack

@@ -4,8 +4,8 @@ title: "EngCalcs"
 version: "0.1.0"
 authors:
   - name: "Elandu"
-repository-code: "https://github.com/Elandu/OpenCalcs"
-license: "AGPL-3.0-only"
+repository-code: "https://github.com/Elandu/EngCalcs"
+license-url: "https://github.com/Elandu/EngCalcs/blob/main/LICENSE"
 keywords:
   - engineering calculations
   - calculation registry

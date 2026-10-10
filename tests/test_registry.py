@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -47,7 +49,7 @@ def test_registry_lists_and_runs_calculations(monkeypatch) -> None:
     assert descriptor["runtime"]["name"] == "EngCalcs"
     assert descriptor["runtime"]["revision"] == "runtime-test-revision"
     assert descriptor["runtime"]["license"] == "AGPL-3.0-only"
-    assert descriptor["runtime"]["source"] == "https://github.com/Elandu/OpenCalcs"
+    assert descriptor["runtime"]["source"] == "https://github.com/Elandu/EngCalcs"
 
     result = registry.run("test.double", {"value": 3})
     assert result["value"] == 6

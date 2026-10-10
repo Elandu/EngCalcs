@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+
 """Compatibility import for ``opencalcs.workflows``."""
 
 import sys as _sys

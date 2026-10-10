@@ -12,7 +12,7 @@ from typing import Any
 
 from engcalcs import __version__
 
-SOURCE_URL = "https://github.com/Elandu/OpenCalcs"
+SOURCE_URL = "https://github.com/Elandu/EngCalcs"
 LICENSE_ID = "AGPL-3.0-only"
 
 

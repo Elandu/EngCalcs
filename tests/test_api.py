@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -76,7 +78,7 @@ def test_about_exposes_source_and_licence_metadata(monkeypatch) -> None:
     assert payload["runtime"]["name"] == "EngCalcs"
     assert payload["runtime"]["revision"] == "runtime-test-revision"
     assert payload["runtime"]["license"] == "AGPL-3.0-only"
-    assert payload["runtime"]["source"] == "https://github.com/Elandu/OpenCalcs"
+    assert payload["runtime"]["source"] == "https://github.com/Elandu/EngCalcs"
     assert payload["plugins"][0]["id"] == "test.plugin"
 
 
