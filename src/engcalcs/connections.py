@@ -79,7 +79,8 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
             "The complete classified-site record is consumed unchanged; eligibility "
             "and load inputs still require engineering review."
         ),
-        "/classification", "/classification",
+        "/classification",
+        "/classification",
     ),
     ConnectionContract(
         "as3500-roof-area-to-roof-flow",
@@ -90,7 +91,9 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
             "Transfers verified roof catchment area; the designer must supply design "
             "rainfall intensity separately."
         ),
-        "/results/catchment_area_m2", "/catchment_area_m2", "m2",
+        "/results/catchment_area_m2",
+        "/catchment_area_m2",
+        "m2",
     ),
     ConnectionContract(
         "as3500-pervious-coefficient-to-design-flow",
@@ -101,7 +104,8 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
             "Select the correct subcatchment, area and rainfall event; each "
             "coefficient belongs to a reviewed catchment row."
         ),
-        "/results/runoff_coefficient", "/catchments/0/runoff_coefficient",
+        "/results/runoff_coefficient",
+        "/catchments/0/runoff_coefficient",
     ),
     ConnectionContract(
         "wind-loads-to-frame",
@@ -112,7 +116,9 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
             "Requires frame member mapping, matching geometry, axes, load cases and "
             "pressure provenance; use the dedicated Wind-to-Frame import validation."
         ),
-        "/member_distributed_loads", "/model/member_distributed_loads", "kN/m",
+        "/member_distributed_loads",
+        "/model/member_distributed_loads",
+        "kN/m",
     ),
     ConnectionContract(
         "as1170-actions-to-frame",
@@ -262,12 +268,16 @@ def module_catalogue(registry: Any) -> list[dict[str, Any]]:
     entries = []
     for module in MODULES:
         plugin = plugins.get(module["id"])
-        entries.append({
-            **module,
-            "installed": plugin is not None,
-            "version": str(plugin.version) if plugin is not None else None,
-            "calculation_ids": sorted(calc.id for calc in plugin.calculations) if plugin else [],
-        })
+        entries.append(
+            {
+                **module,
+                "installed": plugin is not None,
+                "version": str(plugin.version) if plugin is not None else None,
+                "calculation_ids": sorted(calc.id for calc in plugin.calculations)
+                if plugin
+                else [],
+            }
+        )
     return entries
 
 
@@ -283,23 +293,27 @@ def connection_catalogue(
             continue
         source, target = descriptors.get(contract.source), descriptors.get(contract.target)
         installed = source is not None and target is not None
-        compatible, detail = _schema_check(contract, source, target) if installed else (
-            False, "A required engineering module is not installed."
+        compatible, detail = (
+            _schema_check(contract, source, target)
+            if installed
+            else (False, "A required engineering module is not installed.")
         )
-        result.append({
-            "id": contract.id,
-            "source_calculation_id": contract.source,
-            "target_calculation_id": contract.target,
-            "mode": contract.mode,
-            "source_output_path": contract.output_path,
-            "target_input_path": contract.input_path,
-            "unit": contract.unit,
-            "installed": installed,
-            "direct_link_ready": installed and compatible,
-            "requires_engineer_review": True,
-            "requires_adapter": contract.mode == "adapter_required",
-            "automated_transfer_allowed": installed and compatible,
-            "reason": contract.reason,
-            "verification": detail,
-        })
+        result.append(
+            {
+                "id": contract.id,
+                "source_calculation_id": contract.source,
+                "target_calculation_id": contract.target,
+                "mode": contract.mode,
+                "source_output_path": contract.output_path,
+                "target_input_path": contract.input_path,
+                "unit": contract.unit,
+                "installed": installed,
+                "direct_link_ready": installed and compatible,
+                "requires_engineer_review": True,
+                "requires_adapter": contract.mode == "adapter_required",
+                "automated_transfer_allowed": installed and compatible,
+                "reason": contract.reason,
+                "verification": detail,
+            }
+        )
     return result
