@@ -11,7 +11,6 @@ from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel, ConfigDict
 
 from engcalcs import __version__
-from engcalcs.connections import connection_catalogue, module_catalogue
 from engcalcs.auth import (
     CALCULATIONS_READ,
     CALCULATIONS_RUN,
@@ -19,6 +18,7 @@ from engcalcs.auth import (
     Authenticator,
     EngCalcsAuthenticator,
 )
+from engcalcs.connections import connection_catalogue, module_catalogue
 from engcalcs.provenance import plugin_provenance, runtime_provenance
 from engcalcs.registry import CalculationRegistry
 from engcalcs.reports import build_wind_calculation_pack
