@@ -1,6 +1,6 @@
 -e .
 -e ./plugins/pynite
-git+https://github.com/Elandu/EngCalcs-Wind.git@b547ceb77811f3f560dc718a515f7d0e6dd69332#egg=openwind-au
+git+https://github.com/Elandu/EngCalcs-Wind.git@33b3a2d5d19738eca62d16a104ae1ef5e2b61860#egg=openwind-au
 git+https://github.com/Elandu/EngCalcs-AS1170.git@4f12209200c8172f918e248ee73e75be0df97cee#egg=engcalcs-as1170
 git+https://github.com/Elandu/EngCalcs-AS1720.git@e2cfb2893da948d99c204e6f0857bc4d01ccf72b#egg=opencalcs-as1720
 git+https://github.com/Elandu/EngCalcs-AS3500.git@09ce33667a32d9e5870b53de4101565651cabde8#egg=opencalcs-as3500
