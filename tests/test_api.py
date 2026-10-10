@@ -97,6 +97,4 @@ def test_api_discovery_exposes_installed_and_unavailable_module_contracts() -> N
         "/api/v1/connections",
         params={"calculation_id": "structural.as4100.section_analysis"},
     ).json()
-    assert client.get(
-        "/api/v1/connections", params={"calculation_id": "test.double"}
-    ).json() == []
+    assert client.get("/api/v1/connections", params={"calculation_id": "test.double"}).json() == []
