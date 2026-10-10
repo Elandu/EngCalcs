@@ -19,7 +19,6 @@ from mcp.server.transport_security import TransportSecuritySettings
 from pydantic import AnyHttpUrl
 
 from engcalcs import __version__
-from engcalcs.connections import connection_catalogue, module_catalogue
 from engcalcs.auth import (
     CALCULATIONS_READ,
     CALCULATIONS_RUN,
@@ -27,6 +26,7 @@ from engcalcs.auth import (
     EngCalcsAuthenticator,
     is_api_key_token,
 )
+from engcalcs.connections import connection_catalogue, module_catalogue
 from engcalcs.provenance import plugin_provenance, runtime_provenance
 from engcalcs.registry import CalculationRegistry
 from engcalcs.workflows import run_openwind_site_workflow
