@@ -3,6 +3,7 @@
 Run ONLY in the integration CI job after requirements-render is installed.
 This is deliberately not part of the host-only test matrix.
 """
+
 from __future__ import annotations
 
 import json
@@ -56,15 +57,16 @@ def test_as1170_timber_and_stormwater_execute_with_versioned_results() -> None:
 
     roof = registry.run(
         "stormwater.as3500.roof_catchment",
-        {"plan_area_m2": 100, "roof_slope_degrees": 0,
-         "wind_exposure": "freely_exposed"},
+        {"plan_area_m2": 100, "roof_slope_degrees": 0, "wind_exposure": "freely_exposed"},
     )
     assert roof["results"]["catchment_area_m2"] == pytest.approx(100)
     assert roof["_provenance"]["engine"]["id"] == "stormwater.as3500"
     flow = registry.run(
         "stormwater.as3500.roof_flow",
-        {"catchment_area_m2": roof["results"]["catchment_area_m2"],
-         "design_rainfall_intensity_mm_per_hour": 100},
+        {
+            "catchment_area_m2": roof["results"]["catchment_area_m2"],
+            "design_rainfall_intensity_mm_per_hour": 100,
+        },
     )
     assert flow["results"]["design_flow_lps"] == pytest.approx(100 / 36)
 
@@ -91,8 +93,7 @@ def test_rest_and_mcp_use_same_module_connection_registry(monkeypatch) -> None:
     monkeypatch.setattr(mcp_server, "runtime", registry)
     assert rest_modules.json() == mcp_server.list_engineering_modules()
     assert rest_links.json() == mcp_server.list_calculation_connections()
-    assert client.get("/api/v1/connections", params={
-        "calculation_id": "stormwater.as3500.roof_catchment",
-    }).json() == mcp_server.list_calculation_connections(
-        "stormwater.as3500.roof_catchment"
-    )
+    assert client.get(
+        "/api/v1/connections",
+        params={"calculation_id": "stormwater.as3500.roof_catchment"},
+    ).json() == mcp_server.list_calculation_connections("stormwater.as3500.roof_catchment")
