@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
+
 """Compatibility import for ``opencalcs.reports``."""
 
 import sys as _sys

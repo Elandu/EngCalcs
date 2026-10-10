@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
+
 """Compatibility namespace for the former OpenCalcs Python package."""
 
 from engcalcs import __version__
