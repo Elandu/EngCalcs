@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
 """Engineering module catalogue and explicitly reviewed cross-module contracts.
 
 A connection is a *design workflow contract*, not a calculation and not a

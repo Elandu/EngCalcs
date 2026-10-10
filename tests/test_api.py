@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -75,8 +77,8 @@ def test_about_exposes_source_and_licence_metadata(monkeypatch) -> None:
     payload = response.json()
     assert payload["runtime"]["name"] == "EngCalcs"
     assert payload["runtime"]["revision"] == "runtime-test-revision"
-    assert payload["runtime"]["license"] == "AGPL-3.0-only"
-    assert payload["runtime"]["source"] == "https://github.com/Elandu/OpenCalcs"
+    assert payload["runtime"]["license"] == "LicenseRef-EngCalcs-Proprietary"
+    assert payload["runtime"]["source"] == "https://github.com/Elandu/EngCalcs"
     assert payload["plugins"][0]["id"] == "test.plugin"
 
 

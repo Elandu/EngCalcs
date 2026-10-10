@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
 
 """EngCalcs plugin wrapping PyNite's 3D elastic frame solver."""
 
@@ -609,8 +609,8 @@ class PynitePlugin:
     name: str = "PyNite Structural Analysis"
     version: str = PLUGIN_VERSION
     revision: str | None = None
-    license: str | None = "AGPL-3.0-only"
-    source: str | None = "https://github.com/Elandu/OpenCalcs/tree/main/plugins/pynite"
+    license: str | None = "LicenseRef-EngCalcs-Proprietary"
+    source: str | None = "https://github.com/Elandu/EngCalcs/tree/main/plugins/pynite"
     calculations: tuple[PyniteFrameAnalysis, ...] = (PyniteFrameAnalysis(),)
 
     def descriptor(self) -> dict[str, Any]:

@@ -1,19 +1,20 @@
 EngCalcs
 Copyright (c) 2026 Elandu and contributors
 
-EngCalcs is licensed under the GNU Affero General Public License v3.0 only
-(AGPL-3.0-only). See LICENSE for the full licence text.
+The original EngCalcs source rights controlled by the publisher in this
+revision are proprietary (see LICENSE). Earlier released revisions were
+licensed under AGPL-3.0-only; those historical grants continue according
+to their original terms and are not rescinded by this notice.
 
-Canonical source:
-https://github.com/Elandu/EngCalcs
+Canonical source: https://github.com/Elandu/EngCalcs
 
-If you modify EngCalcs and make the modified program available for remote
-network interaction, the AGPL requires that users be offered the corresponding
-source code for the version with which they interact.
+PyNiteFEA, used by the optional EngCalcs frame plugin, is a separately
+licensed open-source dependency (MIT). Its upstream rights remain unchanged.
+This codebase may depend on additional third-party libraries with separate
+licences; preserve their corresponding copyright and licence notices.
 
-EngCalcs calculation responses expose runtime and plugin provenance so that
-engineering records can identify the software version that produced them.
+Runtime calculation responses report source and revision metadata for
+technical traceability; attribution metadata is not a substitute for a
+software licence or a user-interface licence acceptance agreement.
 
-The EngCalcs name and branding are not granted for use beyond rights that may
-otherwise exist under applicable law. The software licence does not grant
-trademark rights.
+The EngCalcs name and branding are not licensed for third-party use.

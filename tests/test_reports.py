@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
+
 from __future__ import annotations
 
 from engcalcs.reports import build_wind_calculation_pack
