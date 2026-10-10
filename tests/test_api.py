@@ -93,9 +93,10 @@ def test_api_discovery_exposes_installed_and_unavailable_module_contracts() -> N
     assert connections.json() == client.get("/api/connections").json()
     assert all(row["installed"] is False for row in modules.json())
     assert all(row["automated_transfer_allowed"] is False for row in connections.json())
-    assert client.get("/api/v1/connections", params={
-        "calculation_id": "structural.as4100.section_analysis",
-    }).json()
-    assert client.get("/api/v1/connections", params={
-        "calculation_id": "test.double",
-    }).json() == []
+    assert client.get(
+        "/api/v1/connections",
+        params={"calculation_id": "structural.as4100.section_analysis"},
+    ).json()
+    assert client.get(
+        "/api/v1/connections", params={"calculation_id": "test.double"}
+    ).json() == []
