@@ -47,7 +47,11 @@ def test_key_verifier_falls_back_to_previous_function_name(monkeypatch) -> None:
             return Response(404 if len(requests) == 1 else 200)
 
     monkeypatch.setattr("engcalcs.auth.httpx.AsyncClient", lambda **_kwargs: Client())
-    context = asyncio.run(EngCalcsAuthenticator(supabase_url="https://supabase.example").verify_api_key("eng_live_example"))
+    context = asyncio.run(
+        EngCalcsAuthenticator(supabase_url="https://supabase.example").verify_api_key(
+            "eng_live_example"
+        )
+    )
 
     assert context.api_key_id == "key-1"
     assert requests[0][0].endswith("/functions/v1/engcalcs-key-verify")
