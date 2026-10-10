@@ -18,6 +18,7 @@ from engcalcs.auth import (
     Authenticator,
     EngCalcsAuthenticator,
 )
+from engcalcs.connections import connection_catalogue, module_catalogue
 from engcalcs.provenance import plugin_provenance, runtime_provenance
 from engcalcs.registry import CalculationRegistry
 from engcalcs.reports import build_wind_calculation_pack
@@ -82,6 +83,21 @@ def create_app(
     @app.get("/api/calculations")
     def calculations(_auth: AuthContext = Depends(require_read)) -> list[dict[str, Any]]:
         return runtime.list_calculations()
+
+    @app.get("/api/v1/modules")
+    @app.get("/api/modules")
+    def modules(_auth: AuthContext = Depends(require_read)) -> list[dict[str, Any]]:
+        """Discover expected engineering modules and which are installed."""
+        return module_catalogue(runtime)
+
+    @app.get("/api/v1/connections")
+    @app.get("/api/connections")
+    def connections(
+        calculation_id: str | None = None,
+        _auth: AuthContext = Depends(require_read),
+    ) -> list[dict[str, Any]]:
+        """Read-only link contracts; not permission to adopt or execute an input."""
+        return connection_catalogue(runtime, calculation_id=calculation_id)
 
     @app.get("/api/v1/calculations/{calculation_id}")
     @app.get("/api/calculations/{calculation_id}")

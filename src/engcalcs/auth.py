@@ -62,13 +62,10 @@ class EngCalcsAuthenticator:
             "ENGCALCS_SUPABASE_URL", "OPENCALCS_SUPABASE_URL", DEFAULT_SUPABASE_URL
         )
         self.supabase_url = (supabase_url or configured_url).rstrip("/")
-        self.publishable_key = (
-            publishable_key
-            or _setting(
-                "ENGCALCS_SUPABASE_PUBLISHABLE_KEY",
-                "OPENCALCS_SUPABASE_PUBLISHABLE_KEY",
-                DEFAULT_SUPABASE_PUBLISHABLE_KEY,
-            )
+        self.publishable_key = publishable_key or _setting(
+            "ENGCALCS_SUPABASE_PUBLISHABLE_KEY",
+            "OPENCALCS_SUPABASE_PUBLISHABLE_KEY",
+            DEFAULT_SUPABASE_PUBLISHABLE_KEY,
         )
         self.timeout_seconds = timeout_seconds
 
@@ -78,8 +75,7 @@ class EngCalcsAuthenticator:
         required_scopes: tuple[str, ...],
     ) -> AuthContext:
         api_key = (
-            request.headers.get("x-engcalcs-key")
-            or request.headers.get("x-opencalcs-key", "")
+            request.headers.get("x-engcalcs-key") or request.headers.get("x-opencalcs-key", "")
         ).strip()
         if api_key:
             return await self.verify_api_key(api_key, required_scopes)

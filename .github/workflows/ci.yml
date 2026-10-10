@@ -82,6 +82,9 @@ jobs:
       - name: Test OpenWind host integration
         run: python -m pytest tests/test_workflows.py
 
+      - name: Verify all pinned standards modules and link contracts
+        run: python -m pytest -q integration_checks
+
       - name: Verify plugin discovery and execution
         run: |
           python - <<'PY'
@@ -107,7 +110,7 @@ jobs:
           )["regional_wind_speed_m_s"] > 0
 
           # Structural section plugins pinned for production.
-          assert {"structural.as3600", "structural.as4100", "structural.pynite"} <= plugin_ids
+          assert {"structural.as1170", "structural.as1720", "stormwater.as3500", "structural.as3600", "structural.as4100", "structural.pynite"} <= plugin_ids
           steel = registry.run(
               "structural.as4100.section_analysis",
               {
