@@ -13,13 +13,41 @@ from dataclasses import dataclass
 from typing import Any
 
 MODULES: tuple[dict[str, str], ...] = (
-    {"id": "au.openwind", "name": "AS/NZS 1170.2 / AS 4055 wind", "scope": "Wind site and housing actions"},
-    {"id": "structural.as1170", "name": "AS/NZS 1170.0 / 1170.1", "scope": "Structural actions and combinations"},
-    {"id": "structural.pynite", "name": "3D frame analysis", "scope": "Elastic member and node results"},
-    {"id": "structural.as3600", "name": "AS 3600 section mechanics", "scope": "Nominal concrete section mechanics only"},
-    {"id": "structural.as4100", "name": "AS 4100 axial sections", "scope": "Steel axial section capacities only"},
-    {"id": "structural.as1720", "name": "AS 1720.1 strength", "scope": "Selected F-grade timber checks"},
-    {"id": "stormwater.as3500", "name": "AS/NZS 3500.3 stormwater", "scope": "Selected drainage calculations"},
+    {
+        "id": "au.openwind",
+        "name": "AS/NZS 1170.2 / AS 4055 wind",
+        "scope": "Wind site and housing actions",
+    },
+    {
+        "id": "structural.as1170",
+        "name": "AS/NZS 1170.0 / 1170.1",
+        "scope": "Structural actions and combinations",
+    },
+    {
+        "id": "structural.pynite",
+        "name": "3D frame analysis",
+        "scope": "Elastic member and node results",
+    },
+    {
+        "id": "structural.as3600",
+        "name": "AS 3600 section mechanics",
+        "scope": "Nominal concrete section mechanics only",
+    },
+    {
+        "id": "structural.as4100",
+        "name": "AS 4100 axial sections",
+        "scope": "Steel axial section capacities only",
+    },
+    {
+        "id": "structural.as1720",
+        "name": "AS 1720.1 strength",
+        "scope": "Selected F-grade timber checks",
+    },
+    {
+        "id": "stormwater.as3500",
+        "name": "AS/NZS 3500.3 stormwater",
+        "scope": "Selected drainage calculations",
+    },
 )
 
 
@@ -47,7 +75,10 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
         "au.wind.as4055.classify_housing_site",
         "au.wind.as4055.housing_surface_loads",
         "direct",
-        "The complete classified-site record is consumed unchanged; eligibility and load inputs still require engineering review.",
+        (
+            "The complete classified-site record is consumed unchanged; eligibility "
+            "and load inputs still require engineering review."
+        ),
         "/classification", "/classification",
     ),
     ConnectionContract(
@@ -55,7 +86,10 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
         "stormwater.as3500.roof_catchment",
         "stormwater.as3500.roof_flow",
         "direct",
-        "Transfers verified roof catchment area; the designer must supply design rainfall intensity separately.",
+        (
+            "Transfers verified roof catchment area; the designer must supply design "
+            "rainfall intensity separately."
+        ),
         "/results/catchment_area_m2", "/catchment_area_m2", "m2",
     ),
     ConnectionContract(
@@ -63,7 +97,10 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
         "stormwater.as3500.pervious_runoff_coefficient",
         "stormwater.as3500.design_flow",
         "reviewed_import",
-        "Select the correct subcatchment, area and rainfall event; each coefficient belongs to a reviewed catchment row.",
+        (
+            "Select the correct subcatchment, area and rainfall event; each "
+            "coefficient belongs to a reviewed catchment row."
+        ),
         "/results/runoff_coefficient", "/catchments/0/runoff_coefficient",
     ),
     ConnectionContract(
@@ -71,7 +108,10 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
         "au.wind.frame_loads",
         "structural.pynite.frame_analysis",
         "reviewed_import",
-        "Requires frame member mapping, matching geometry, axes, load cases and pressure provenance; use the dedicated Wind-to-Frame import validation.",
+        (
+            "Requires frame member mapping, matching geometry, axes, load cases and "
+            "pressure provenance; use the dedicated Wind-to-Frame import validation."
+        ),
         "/member_distributed_loads", "/model/member_distributed_loads", "kN/m",
     ),
     ConnectionContract(
@@ -79,56 +119,81 @@ CONNECTIONS: tuple[ConnectionContract, ...] = (
         "structural.as1170.part1.floor_action",
         "structural.pynite.frame_analysis",
         "adapter_required",
-        "Imposed floor actions require tributary geometry, load orientation and case assignment before applying to structural members.",
+        (
+            "Imposed floor actions require tributary geometry, load orientation and "
+            "case assignment before applying to structural members."
+        ),
     ),
     ConnectionContract(
         "as1170-combination-review",
         "structural.as1170.part0.combinations",
         "structural.pynite.frame_analysis",
         "adapter_required",
-        "AS/NZS 1170.0 combines signed action effects, while frame solvers combine applied load cases; an engineer must resolve action-to-load-case mapping.",
+        (
+            "AS/NZS 1170.0 combines signed action effects, while frame solvers "
+            "combine applied load cases; an engineer must resolve action-to-load-case "
+            "mapping."
+        ),
     ),
     ConnectionContract(
         "frame-actions-to-as1170-combinations",
         "structural.pynite.frame_analysis",
         "structural.as1170.part0.combinations",
         "adapter_required",
-        "Identify member, combination, action direction, sign and independent G/Q/W effects; do not map a force diagram automatically.",
+        (
+            "Identify member, combination, action direction, sign and independent "
+            "G/Q/W effects; do not map a force diagram automatically."
+        ),
     ),
     ConnectionContract(
         "frame-to-concrete-section",
         "structural.pynite.frame_analysis",
         "structural.as3600.section_analysis",
         "adapter_required",
-        "Review governing axial force and bending orientation; the concrete module reports nominal mechanics, not AS 3600 design capacity.",
+        (
+            "Review governing axial force and bending orientation; the concrete "
+            "module reports nominal mechanics, not AS 3600 design capacity."
+        ),
     ),
     ConnectionContract(
         "frame-to-steel-section",
         "structural.pynite.frame_analysis",
         "structural.as4100.section_analysis",
         "adapter_required",
-        "Determine factored tension/compression design actions, member axis, load combination and sign; section axial capacity excludes member buckling.",
+        (
+            "Determine factored tension/compression design actions, member axis, load "
+            "combination and sign; section axial capacity excludes member buckling."
+        ),
     ),
     ConnectionContract(
         "frame-to-timber-beam",
         "structural.pynite.frame_analysis",
         "structural.as1720.beam_design",
         "adapter_required",
-        "Choose governing major/minor bending and shear, load duration and restraint; no automatic frame envelope is an AS 1720 member design.",
+        (
+            "Choose governing major/minor bending and shear, load duration and "
+            "restraint; no automatic frame envelope is an AS 1720 member design."
+        ),
     ),
     ConnectionContract(
         "frame-to-timber-column",
         "structural.pynite.frame_analysis",
         "structural.as1720.column_design",
         "adapter_required",
-        "Determine compression demand and member stability, restraint and effective length assumptions.",
+        (
+            "Determine compression demand and member stability, restraint and "
+            "effective length assumptions."
+        ),
     ),
     ConnectionContract(
         "frame-to-timber-tension",
         "structural.pynite.frame_analysis",
         "structural.as1720.tension_design",
         "adapter_required",
-        "Select factored tension action and verify timber material, net area and connection exclusions.",
+        (
+            "Select factored tension action and verify timber material, net area and "
+            "connection exclusions."
+        ),
     ),
 )
 
@@ -150,7 +215,9 @@ def _field_schema(document: Any, pointer: str | None) -> dict[str, Any] | None:
     return current
 
 
-def _schema_check(contract: ConnectionContract, source: dict[str, Any], target: dict[str, Any]) -> tuple[bool, str]:
+def _schema_check(
+    contract: ConnectionContract, source: dict[str, Any], target: dict[str, Any]
+) -> tuple[bool, str]:
     if contract.mode != "direct":
         return False, "Explicit engineering review or a dedicated adapter is required."
     src = _field_schema(source.get("output_schema"), contract.output_path)
