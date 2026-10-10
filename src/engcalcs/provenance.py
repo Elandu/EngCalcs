@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: LicenseRef-EngCalcs-Proprietary
 # Copyright (c) 2026 Elandu and contributors
 
 """Runtime and plugin provenance helpers for EngCalcs."""
@@ -12,8 +12,8 @@ from typing import Any
 
 from engcalcs import __version__
 
-SOURCE_URL = "https://github.com/Elandu/OpenCalcs"
-LICENSE_ID = "AGPL-3.0-only"
+SOURCE_URL = "https://github.com/Elandu/EngCalcs"
+LICENSE_ID = "LicenseRef-EngCalcs-Proprietary"
 
 
 def distribution_revision(

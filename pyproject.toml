@@ -7,7 +7,7 @@ name = "engcalcs"
 version = "0.1.0"
 description = "Modular engineering calculation host and API."
 readme = "README.md"
-license = "AGPL-3.0-only"
+license = "LicenseRef-EngCalcs-Proprietary"
 authors = [{ name = "Elandu" }]
 requires-python = ">=3.11"
 dependencies = [
@@ -20,8 +20,8 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/Elandu/OpenCalcs"
-Issues = "https://github.com/Elandu/OpenCalcs/issues"
+Repository = "https://github.com/Elandu/EngCalcs"
+Issues = "https://github.com/Elandu/EngCalcs/issues"
 
 [project.scripts]
 engcalcs-mcp = "engcalcs.mcp_server:main"

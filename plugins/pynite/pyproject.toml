@@ -7,7 +7,7 @@ name = "engcalcs-pynite"
 version = "0.1.0"
 description = "PyNite 3D frame analysis plugin for EngCalcs."
 requires-python = ">=3.11"
-license = "AGPL-3.0-only"
+license = "LicenseRef-EngCalcs-Proprietary"
 dependencies = [
   "jsonschema>=4.22,<5",
   "PyniteFEA>=3.2.0,<4",

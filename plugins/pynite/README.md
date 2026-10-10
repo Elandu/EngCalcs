@@ -16,4 +16,4 @@ python -m pip install -e .
 python -m pip install -e .\plugins\pynite
 ```
 
-PyNite is distributed under MIT. This adapter is distributed under AGPL-3.0-only.
+PyNite is distributed under MIT. This proprietary adapter is covered by the EngCalcs licence. Historic AGPL-licensed revisions retain their previous grants. PyNite remains third-party MIT-licensed software.

@@ -139,28 +139,11 @@ dependencies and provenance boundary.
 
 ## Licence and provenance
 
-EngCalcs core is licensed under `AGPL-3.0-only`. See `LICENSE` and `NOTICE`.
+The EngCalcs host and its PyNite adapter in this revision are proprietary;
+see `LICENSE`, `NOTICE`, and `LICENSING.md`. Versions previously released
+under AGPL-3.0-only retain their original rights. Third-party packages, including
+PyNite, continue under their own licences and attribution obligations.
 
-Canonical source: https://github.com/Elandu/OpenCalcs
-
-Substantive Python source files carry SPDX licence and copyright headers. The runtime
-injects provenance automatically into calculation descriptors and results, including:
-
-- EngCalcs runtime version and source revision;
-- EngCalcs licence and canonical source URL;
-- calculation plugin/engine ID, version, revision, licence and source URL;
-- calculation definition ID/version; and
-- standard metadata where supplied by the engineering module.
-
-The public metadata endpoint is:
-
-```text
-GET /api/v1/about
-```
-
-This endpoint does not require authentication and provides the source/licence identity of
-the running EngCalcs service and its installed engineering plugins.
-
-Calculation results retain their normal engineering output fields and add the reserved
-`_provenance` object. This metadata is also persisted with saved calculation runs by the
-EngCalcs SaaS layer.
+Provenance returned by `GET /api/v1/about` and calculation results identifies
+the **actual runtime and plugin licence**. Legacy `opencalcs` import paths,
+entry points, and environment variables remain available for compatibility.
