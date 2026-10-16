@@ -3,6 +3,6 @@
 git+https://github.com/Elandu/EngCalcs-Wind.git@e346e3e97bf79d130268bf8cd3a765b2db577010#egg=openwind-au
 git+https://github.com/Elandu/EngCalcs-AS1170.git@6955b33002a9413358d20959238d9f23ec698798#egg=engcalcs-as1170
 git+https://github.com/Elandu/EngCalcs-AS1720.git@3a0603f3cd9ccc12c6bb2d7b32e4937b21d4796e#egg=opencalcs-as1720
-git+https://github.com/Elandu/EngCalcs-AS3500.git@8e98e7f26ae804487ceb3c12a1112cc83a662b92#egg=opencalcs-as3500
+git+https://github.com/Elandu/EngCalcs-AS3500.git@6cb58478c6f44765d82d3a8f4d15b1dc1f8f0e27#egg=opencalcs-as3500
 git+https://github.com/Elandu/EngCalcs-AS3600.git@45017189936fae7b063b613ecb972cbedb9f7e3f#egg=opencalcs-as3600
 git+https://github.com/Elandu/EngCalcs-AS4100.git@0b30846b4a237c0943c001b3cde5eb0e4aaa9087#egg=opencalcs-as4100

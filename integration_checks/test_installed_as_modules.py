@@ -97,3 +97,33 @@ def test_rest_and_mcp_use_same_module_connection_registry(monkeypatch) -> None:
         "/api/v1/connections",
         params={"calculation_id": "stormwater.as3500.roof_catchment"},
     ).json() == mcp_server.list_calculation_connections("stormwater.as3500.roof_catchment")
+
+
+def test_expanded_roof_drainage_is_installed_and_runs_through_authenticated_api() -> None:
+    registry = CalculationRegistry()
+    calculation_ids = {item["id"] for item in registry.list_calculations()}
+    required = {
+        "stormwater.as3500.eaves_gutter_chart",
+        "stormwater.as3500.box_gutter_design",
+        "stormwater.as3500.rainhead_design",
+        "stormwater.as3500.box_side_overflow",
+        "stormwater.as3500.box_high_capacity_overflow",
+    }
+    assert required <= calculation_ids
+    client = TestClient(create_app(registry, authenticator=AllowAllAuthenticator()))
+    response = client.post(
+        "/api/v1/calculations/stormwater.as3500.eaves_gutter_chart/run",
+        json={
+            "inputs": {
+                "catchment_area_m2": 180,
+                "design_rainfall_intensity_mm_per_hour": 150,
+                "gradient": 0.002,
+                "downpipe_count": 3,
+            }
+        },
+    )
+    assert response.status_code == 200
+    result = response.json()["results"]
+    assert result["total_design_flow_lps"] == pytest.approx(7.5)
+    assert result["design_flow_per_downpipe_lps"] == pytest.approx(2.5)
+    assert result["minimum_effective_gutter_area_mm2"] > 0
